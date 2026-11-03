@@ -75,13 +75,30 @@ const fetchJobicy = () => source("Jobicy", "https://jobicy.com/api/jobs?count=10
     salary: job.salaryMin && job.salaryMax ? `${job.salaryCurrency || ""} ${job.salaryMin}-${job.salaryMax} ${job.salaryPeriod || ""}`.trim() : "",
     description: job.jobExcerpt || job.jobDescription, date: job.pubDate
   })));
+const expandedOnly = process.env.EXPANDED_ONLY === "true";
 const jobicyOnly = process.env.JOBICY_ONLY === "true";
-if (jobicyOnly) {
+const fetchRemoteOk = () => source("Remote OK", "https://remoteok.com/api", (data) =>
+  (Array.isArray(data) ? data.slice(1) : []).map((job) => ({
+    id: job.id, title: job.position, company: job.company, url: job.url,
+    location: job.location || "Remote", type: job.type || "",
+    salary: job.salary_min && job.salary_max ? `${job.salary_min}-${job.salary_max}` : "",
+    description: job.description, date: job.date
+  })));
+const fetchHimalayas = () => source("Himalayas", "https://himalayas.app/jobs/api?limit=20&offset=0", (data) =>
+  (data.jobs || []).map((job) => ({
+    id: job.guid, title: job.title, company: job.companyName, url: job.applicationLink,
+    location: (job.locationRestrictions || []).join(", ") || "Remote",
+    type: job.employmentType,
+    salary: job.minSalary && job.maxSalary ? `${job.currency || ""} ${job.minSalary}-${job.maxSalary} / ${job.salaryPeriod || "year"}`.trim() : "",
+    description: job.excerpt || job.description, date: job.pubDate
+  })));
+if (expandedOnly || jobicyOnly) {
   const previous = await getJson("https://mane458957-maker.github.io/creative-hunter-ai/data/opportunities.json").catch(() => null);
-  await fetchJobicy();
+  const refreshedSources = expandedOnly ? ["Jobicy", "Remote OK", "Himalayas"] : ["Jobicy"];
+  await Promise.all([fetchJobicy(), ...(expandedOnly ? [fetchRemoteOk(), fetchHimalayas()] : [])]);
   if (previous) {
-    listings.push(...(previous.opportunities || []));
-    sourceStatus.push(...(previous.sources || []).filter((item) => item.name !== "Jobicy"));
+    listings.push(...(previous.opportunities || []).filter((item) => !refreshedSources.includes(item.source)));
+    sourceStatus.push(...(previous.sources || []).filter((item) => !refreshedSources.includes(item.name)));
   }
 } else {
   await Promise.all([
@@ -97,7 +114,9 @@ if (jobicyOnly) {
         location: job.location, type: Array.isArray(job.job_types) ? job.job_types.join(", ") : "",
         description: job.description, date: job.created_at
       }))),
-    fetchJobicy()
+    fetchJobicy(),
+    fetchRemoteOk(),
+    fetchHimalayas()
   ]);
 };
 const unique = [...new Map(listings.map((item) => [item.url, item])).values()];
