@@ -179,7 +179,6 @@ const fetchFreelancer = () => source("Freelancer.com", "https://www.freelancer.c
     title: project.title,
     company: "Client · Freelancer.com",
     url: project.seo_url ? "https://www.freelancer.com/projects/" + project.seo_url : "",
-    location: "Remote · international",
     type: "Freelance project",
     salary: project.budget?.minimum != null && project.budget?.maximum != null
       ? String(project.currency?.code || "") + " " + project.budget.minimum + "-" + project.budget.maximum : "",
