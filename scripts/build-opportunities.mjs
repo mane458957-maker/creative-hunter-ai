@@ -52,7 +52,7 @@ function normalize({ id, title, company, url, location, type, salary, descriptio
     summary,
     url,
     source,
-    date: date || ""
+    date: date ? String(date) : ""
   };
 }
 const sourceStatus = [];
