@@ -1,6 +1,6 @@
 # Sources de données et état des connexions
 
-**Mise à jour : 3 novembre 2026.** Six flux publics sont récupérés par GitHub Actions quatre fois par jour. Le profil candidat sert uniquement au filtrage dans le runner; il n’est pas copié dans le site publié.
+**Mise à jour : 3 novembre 2026.** Sept flux publics sont récupérés par GitHub Actions quatre fois par jour. Le profil candidat sert uniquement au filtrage dans le runner; il n’est pas copié dans le site publié.
 
 ## Moteur emploi
 
@@ -21,9 +21,33 @@
 | Remotive / Arbeitnow / Jobicy / Remote OK / Himalayas | Connectées, limitées | Seules les annonces indiquant explicitement freelance ou travail par projet apparaissent dans cette vue. |
 | Upwork | Non connecté | Accès développeur officiel et identifiants requis. |
 | Malt / Contra | Non connectées | Vérifier la disponibilité d’un flux officiel ou d’une autorisation écrite. |
-| Freelancer.com | Connecté | API publique de projets actifs publiée par des clients; aucun compte requis pour la lecture. Le lien original est conservé; il faut un compte Freelancer pour envoyer une proposition. |
+| Freelancer.com | Connecté | API publique de projets actifs publiée par des clients; aucun compte requis pour la lecture. Les clients situés en Inde sont exclus. Les projets avec budget connu sont convertis en EUR et ceux sous 400 € sont masqués. Les projets sans budget restent visibles après les projets chiffrés. Un compte Freelancer est requis pour envoyer une proposition. |
 
 Aucun scraping de pages protégées n’est activé; les offres freelance viennent de l’API publique Freelancer.com. Aucun identifiant de plateforme ni de candidat n’est configuré.
+
+
+## Ressources à connecter, par facilité
+
+### 1. Faciles ou déjà accessibles
+
+- **We Work Remotely** : connecté via son flux RSS public, avec attribution et liens d’origine conservés.
+- **Remote First Jobs** : API publique sans clé, mais ses conditions interdisent la republication des offres sur des sites tiers. Le tableau GitHub Pages étant public, la source n’est pas intégrée sans autorisation écrite.
+- **Trabajos Online** : API de recherche publique repérée, mais les conditions de contact et de paiement imposent de garder les échanges sur leur plateforme. À examiner avant de l’afficher dans un tableau public.
+
+### 2. API ou manipulation à préparer
+
+- **France Travail** : source française à étudier ensuite. Il faudra identifier l’API de diffusion d’offres adaptée et suivre son inscription/autorisation; aucun accès ni identifiant n’est configuré.
+- **Upwork** : API développeur et accès accordé par Upwork. Il faudra créer un compte développeur et demander les identifiants; les offres resteront consultées et proposées manuellement.
+- **Taux de change Frankfurter** : connecté sans clé pour convertir les budgets affichés en euros. Les taux sont quotidiens; l’équivalent affiché reste une estimation.
+
+### 3. Accès plus difficiles ou conditions à vérifier
+
+- **Indeed** : une adresse e-mail ou un compte candidat ne suffit pas. Les API documentées sont destinées à des partenaires et à des intégrations précises; il faut obtenir l’accès et l’autorisation adéquate avant tout raccordement.
+- **LinkedIn** : pas de collecte automatisée ni de contournement de protections. Une connexion nécessiterait une API ou un accès partenaire approuvé.
+- **Malt / Contra** : aucun flux public adapté n’est configuré. Il faut vérifier les API officielles et les conditions d’utilisation avant de connecter des données.
+- **Compte Freelancer** : l’API publique ne sert qu’à lire les annonces. Pour envoyer une proposition, Mohammed devra créer son compte lui-même et accepter les règles de la plateforme. Nous le ferons ensemble plus tard; aucun compte n’est créé ici.
+
+Aucune candidature, proposition ou prise de contact n’est envoyée automatiquement. Les identifiants éventuels devront être ajoutés comme secrets privés GitHub, jamais dans les fichiers publics.
 
 ## Traduction
 
