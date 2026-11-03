@@ -124,11 +124,17 @@ async function fetchWeWorkRemotely() {
   const name = "We Work Remotely";
   try {
     const xml = await getText("https://weworkremotely.com/remote-jobs.rss");
-    const blocks = [...xml.matchAll(/<item\\b[^>]*>([\\s\\S]*?)<\\/item>/gi)].map((match) => match[1]);
-    const field = (block, tag) => plainText(block.match(new RegExp("<" + tag + "[^>]*>([\\\\s\\\\S]*?)</" + tag + ">", "i"))?.[1] || "");
+    const blocks = xml.split("<item>").slice(1).map((block) => block.split("</item>")[0]);
+    const field = (block, tag) => {
+      const open = block.indexOf("<" + tag);
+      if (open < 0) return "";
+      const start = block.indexOf(">", open) + 1;
+      const end = block.indexOf("</" + tag + ">", start);
+      return end < 0 ? "" : plainText(block.slice(start, end));
+    };
     const items = blocks.map((block) => {
       const rawTitle = field(block, "title");
-      const parts = rawTitle.split(/\\s+-\\s+/);
+      const parts = rawTitle.split(" - ");
       return {
         id: field(block, "guid") || field(block, "link"),
         title: parts.length > 1 ? parts.slice(1).join(" - ") : rawTitle,
@@ -147,6 +153,7 @@ async function fetchWeWorkRemotely() {
     sourceStatus.push({ name, status: "temporarily_unavailable", count: 0, detail: String(error.message || error).slice(0, 100) });
   }
 }
+const freelancerOnly = process.env.FREELANCER_ONLY === "true";
 const expandedOnly = process.env.EXPANDED_ONLY === "true";
 const jobicyOnly = process.env.JOBICY_ONLY === "true";
 const fetchRemoteOk = () => source("Remote OK", "https://remoteok.com/api", (data) =>
@@ -183,7 +190,14 @@ const fetchFreelancer = () => source("Freelancer.com", "https://www.freelancer.c
     date: project.submitdate ? new Date(project.submitdate * 1000).toISOString() : ""
   })));
 
-if (expandedOnly || jobicyOnly) {
+if (freelancerOnly) {
+  const previous = await getJson("https://mane458957-maker.github.io/creative-hunter-ai/data/opportunities.json").catch(() => null);
+  await fetchFreelancer();
+  if (previous) {
+    listings.push(...(previous.opportunities || []).filter((item) => item.source !== "Freelancer.com"));
+    sourceStatus.push(...(previous.sources || []).filter((item) => item.name !== "Freelancer.com"));
+  }
+} else if (expandedOnly || jobicyOnly) {
   const previous = await getJson("https://mane458957-maker.github.io/creative-hunter-ai/data/opportunities.json").catch(() => null);
   const refreshedSources = expandedOnly ? ["Jobicy", "Remote OK", "Himalayas", "Freelancer.com", "We Work Remotely"] : ["Jobicy"];
   await Promise.all([fetchJobicy(), ...(expandedOnly ? [fetchRemoteOk(), fetchHimalayas(), fetchFreelancer(), fetchWeWorkRemotely()] : [])]);
