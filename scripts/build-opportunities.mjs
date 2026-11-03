@@ -134,14 +134,16 @@ async function fetchWeWorkRemotely() {
     };
     const items = blocks.map((block) => {
       const rawTitle = field(block, "title");
-      const parts = rawTitle.split(" - ");
+      const parts = rawTitle.split(": ");
+      const region = field(block, "region");
+      const country = field(block, "country");
       return {
         id: field(block, "guid") || field(block, "link"),
-        title: parts.length > 1 ? parts.slice(1).join(" - ") : rawTitle,
+        title: parts.length > 1 ? parts.slice(1).join(": ") : rawTitle,
         company: parts.length > 1 ? parts[0] : name,
         url: field(block, "link"),
-        location: "Remote",
-        type: "Remote",
+        location: [region, country].filter(Boolean).join(" · ") || "Remote",
+        type: field(block, "type") || "Remote",
         description: field(block, "description"),
         date: field(block, "pubDate")
       };
