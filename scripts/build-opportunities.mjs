@@ -22,6 +22,26 @@ function plainText(value = "") {
     .replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&")
     .replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 }
+function normalizeText(value) {
+  return String(value).normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLowerCase();
+}
+const allowedLanguages = (profile.matching.employment.workingLanguages || []).map(normalizeText);
+const languageAliases = [
+  { name: "english", words: /\\b(?:english|anglais|englisch)\\b/ },
+  { name: "french", words: /\\b(?:french|francais|francais|franzoesisch)\\b/ },
+  { name: "german", words: /\\b(?:german|deutsch\\w*|allemand\\w*)\\b/ },
+  { name: "dutch", words: /\\b(?:dutch|nederlands?\\w*|neerlandais\\w*|hollandais\\w*)\\b/ },
+  { name: "spanish", words: /\\b(?:spanish|espanol|espagnol)\\b/ },
+  { name: "arabic", words: /\\b(?:arabic|arabe)\\b/ }
+];
+const strongLanguageRequirement = /\\b(?:c1|c2|b2|fluent|native|advanced|proficient|excellent|very good|strong command|must speak|required language|language requirement|kenntnisse|sprachkenntnisse|sehr gute|gute kenntnisse|fliessend|verhandlungssicher|courant|maitrise|bilingue|vloeiend|moedertaal)\\b/i;
+function hasUnsupportedLanguageRequirement(value = "") {
+  const text = normalizeText(value);
+  if (!strongLanguageRequirement.test(text)) return false;
+  return languageAliases.some((language) =>
+    !allowedLanguages.includes(language.name) && language.words.test(text)
+  );
+}
 function classify(text, explicitType = "") {
   const type = explicitType.toLowerCase();
   if (type.includes("freelance") || type.includes("contractor") || type.includes("project-based")) return "freelance";
@@ -61,7 +81,10 @@ const listings = [];
 async function source(name, request, mapItems) {
   try {
     const payload = await getJson(request);
-    const items = mapItems(payload).map((item) => normalize({ ...item, source: name })).filter(Boolean);
+    const items = mapItems(payload)
+      .filter((item) => !hasUnsupportedLanguageRequirement([item.title, item.description].join(" ")))
+      .map((item) => normalize({ ...item, source: name }))
+      .filter(Boolean);
     listings.push(...items);
     sourceStatus.push({ name, status: "connected", count: items.length });
   } catch (error) {
@@ -121,6 +144,7 @@ if (expandedOnly || jobicyOnly) {
 };
 const unique = [...new Map(listings.map((item) => [item.url, item])).values()];
 const relevant = unique.filter((item) => {
+  if (hasUnsupportedLanguageRequirement([item.title, item.summary].join(" "))) return false;
   const title = item.title.toLowerCase();
   const body = [item.title, item.type, item.summary, ...item.tags].join(" ").toLowerCase();
   const roleInTitle = targetTitles.some((term) => title.includes(term));
