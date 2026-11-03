@@ -34,20 +34,18 @@ const languageAliases = [
   { name: "spanish", words: /\\b(?:spanish|espanol|espagnol)\\b/ },
   { name: "arabic", words: /\\b(?:arabic|arabe)\\b/ }
 ];
-const strongLanguageRequirement = /\\b(?:c1|c2|b2|fluent|native|advanced|proficient|excellent|very good|strong command|must speak|required language|language requirement|kenntnisse|sprachkenntnisse|sehr gute|gute kenntnisse|fliessend|verhandlungssicher|courant|maitrise|bilingue|vloeiend|moedertaal)\\b/i;
+const strongLanguageRequirement = /\\b(?:c1|c2|b2|fluent|native|advanced|proficient|excellent|very good|good knowledge|strong command|must speak|required|kenntnisse|sprachkenntnisse|sehr gute|gute kenntnisse|fliessend|verhandlungssicher|courant|maitrise|bilingue|vloeiend|moedertaal)\\b/i;
 function hasUnsupportedLanguageRequirement(value = "") {
   const text = normalizeText(value);
-  if (!strongLanguageRequirement.test(text)) return false;
-  return languageAliases.some((language) =>
-    !allowedLanguages.includes(language.name) && language.words.test(text)
-  );
-}
-function employmentLocationAllowed(item) {
-  if (item.kind !== "job") return true;
-  const place = normalizeText([item.location, item.type, item.summary].join(" "));
-  if (!place || /not specified|non precise|unspecified/.test(place)) return true;
-  if (/remote|work from home|worldwide|anywhere|distributed|telecommut/.test(place)) return true;
-  return /france|french|dubai|abu dhabi|sharjah|ajman|ras al khaimah|united arab emirates|\\buae\\b|emirates/.test(place);
+  return languageAliases.some((language) => {
+    if (allowedLanguages.includes(language.name)) return false;
+    for (const match of text.matchAll(new RegExp(language.words.source, "g"))) {
+      const start = Math.max(0, match.index - 100);
+      const end = Math.min(text.length, match.index + match[0].length + 100);
+      if (strongLanguageRequirement.test(text.slice(start, end))) return true;
+    }
+    return false;
+  });
 }
 function classify(text, explicitType = "") {
   const type = explicitType.toLowerCase();
@@ -158,7 +156,8 @@ const relevant = unique.filter((item) => {
   const roleInTitle = targetTitles.some((term) => title.includes(term));
   const skillInTitle = uniqueSkills.some((skill) => title.includes(skill));
   const relevantSkills = uniqueSkills.filter((skill) => body.includes(skill)).length;
-  return roleInTitle || skillInTitle || relevantSkills >= 2;
+  const creativeRole = /video|film|motion|content creator|content producer|social media|web design|shopify|webflow|e-?commerce|visual|creative|graphic|seo/.test(title);
+  return roleInTitle || skillInTitle || creativeRole || relevantSkills >= 1;
 });
 const capped = relevant.sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 300);
 await fs.mkdir("_site/data", { recursive: true });
