@@ -5,7 +5,11 @@ on:
     branches: [main]
     paths:
       - "index.html"
+      - "config/candidate-profile.json"
+      - "scripts/**"
       - ".github/workflows/pages.yml"
+  schedule:
+    - cron: "0 1,7,13,19 * * *"
   workflow_dispatch:
 
 permissions:
@@ -21,16 +25,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-      - name: Prepare the site
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Prepare dashboard
         run: |
-          mkdir _site
+          mkdir -p _site/data
           cp index.html _site/index.html
-      - name: Upload dashboard
-        uses: actions/upload-pages-artifact@v3
+      - name: Fetch and match live opportunities
+        run: node scripts/build-opportunities.mjs
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
