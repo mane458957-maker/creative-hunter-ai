@@ -1,6 +1,6 @@
 # Sources de données et état des connexions
 
-**Mise à jour : 3 novembre 2026.** Cinq flux publics sont récupérés par GitHub Actions quatre fois par jour. Le profil candidat sert uniquement au filtrage dans le runner; il n’est pas copié dans le site publié.
+**Mise à jour : 3 novembre 2026.** Six flux publics sont récupérés par GitHub Actions quatre fois par jour. Le profil candidat sert uniquement au filtrage dans le runner; il n’est pas copié dans le site publié.
 
 ## Moteur emploi
 
@@ -21,9 +21,9 @@
 | Remotive / Arbeitnow / Jobicy / Remote OK / Himalayas | Connectées, limitées | Seules les annonces indiquant explicitement freelance ou travail par projet apparaissent dans cette vue. |
 | Upwork | Non connecté | Accès développeur officiel et identifiants requis. |
 | Malt / Contra | Non connectées | Vérifier la disponibilité d’un flux officiel ou d’une autorisation écrite. |
-| Freelancer.com | Non connecté | Autorisation écrite à obtenir avant tout accès automatisé. |
+| Freelancer.com | Connecté | API publique de projets actifs publiée par des clients; aucun compte requis pour la lecture. Le lien original est conservé; il faut un compte Freelancer pour envoyer une proposition. |
 
-Aucun scraping n’est activé. Aucun identifiant de plateforme n’est configuré.
+Aucun scraping de pages protégées n’est activé; les offres freelance viennent de l’API publique Freelancer.com. Aucun identifiant de plateforme ni de candidat n’est configuré.
 
 ## Traduction
 
@@ -34,7 +34,7 @@ L’interface est en français. Les annonces peuvent rester dans leur langue d�
 - Actualisation planifiée à 01 h, 07 h, 13 h et 19 h UTC; les changements pertinents du dépôt relancent également le flux.
 - La correspondance est calculée dans GitHub Actions. Le profil candidat n’est ni publié sur Pages ni transmis aux sites d’offres.
 - L’instantané public contient les détails des annonces, leur source, leur URL et un score indicatif, sans coordonnées du candidat.
-- Les annonces enregistrées restent dans le navigateur; aucune base de données ni synchronisation de compte n’est configurée.
+- Les annonces enregistrées restent dans le navigateur; aucune base de données ni synchronisation de compte n’est configurée. Freelancer.com actualise les projets publiés par des clients et conserve le lien vers chaque demande d’origine.
 
 ## Candidatures
 
