@@ -6,9 +6,9 @@ Tableau de découverte d’offres d’emploi créatives et de missions freelance
 
 ## Sources connectées
 
-- **Emploi :** Remotive, Arbeitnow Europe et Jobicy.
+- **Emploi :** Remotive, Arbeitnow Europe, Jobicy, Remote OK et Himalayas.
 - **Freelance :** annonces portant explicitement la mention freelance, contractant ou projet, affichées dans une vue distincte.
-- Les flux sont actualisés quatre fois par jour. Les mises à jour du tableau récupèrent Jobicy et conservent le dernier instantané des autres flux pour respecter leurs limites de requêtes.
+- Les flux sont actualisés quatre fois par jour. Les annonces qui exigent un niveau avancé dans une langue non indiquée sur le CV sont exclues du flux. Les mises à jour du tableau récupèrent Jobicy et conservent le dernier instantané des autres flux pour respecter leurs limites de requêtes.
 - Chaque annonce renvoie à sa source d’origine. Certaines annonces peuvent être en anglais, allemand ou néerlandais; le bouton **« Traduire l’annonce en français »** ouvre la traduction de la page source.
 - Aucune candidature, proposition, enchère ou aucun message n’est envoyé automatiquement.
 
