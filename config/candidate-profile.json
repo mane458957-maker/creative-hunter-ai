@@ -3,7 +3,7 @@
   "privacy": {
     "contactDetailsIncluded": false,
     "cvFileIncluded": false,
-    "publicExposureAllowed": false
+    "publicExposureAllowed": true
   },
   "candidate": {
     "displayName": "Mohammed Goual",
