@@ -68,20 +68,38 @@ async function source(name, request, mapItems) {
     sourceStatus.push({ name, status: "temporarily_unavailable", count: 0, detail: String(error.message || error).slice(0, 100) });
   }
 }
-await Promise.all([
-  source("Remotive", "https://remotive.com/api/remote-jobs?limit=500", (data) =>
-    (data.jobs || []).map((job) => ({
-      id: job.id, title: job.title, company: job.company_name, url: job.url,
-      location: job.candidate_required_location || "Remote", type: job.job_type,
-      salary: job.salary, description: job.description, date: job.publication_date
-    }))),
-  source("Arbeitnow Europe", "https://www.arbeitnow.com/api/job-board-api", (data) =>
-    (data.data || []).map((job) => ({
-      id: job.slug, title: job.title, company: job.company_name, url: job.url,
-      location: job.location, type: Array.isArray(job.job_types) ? job.job_types.join(", ") : "",
-      description: job.description, date: job.created_at
-    })))
-]);
+const fetchJobicy = () => source("Jobicy", "https://jobicy.com/api/jobs?count=100", (data) =>
+  (data.jobs || []).map((job) => ({
+    id: job.id, title: job.jobTitle, company: job.companyName, url: job.url,
+    location: job.jobGeo, type: Array.isArray(job.jobType) ? job.jobType.join(", ") : "",
+    salary: job.salaryMin && job.salaryMax ? `${job.salaryCurrency || ""} ${job.salaryMin}-${job.salaryMax} ${job.salaryPeriod || ""}`.trim() : "",
+    description: job.jobExcerpt || job.jobDescription, date: job.pubDate
+  })));
+const jobicyOnly = process.env.JOBICY_ONLY === "true";
+if (jobicyOnly) {
+  const previous = await getJson("https://mane458957-maker.github.io/creative-hunter-ai/data/opportunities.json").catch(() => null);
+  await fetchJobicy();
+  if (previous) {
+    listings.push(...(previous.opportunities || []));
+    sourceStatus.push(...(previous.sources || []).filter((item) => item.name !== "Jobicy"));
+  }
+} else {
+  await Promise.all([
+    source("Remotive", "https://remotive.com/api/remote-jobs?limit=500", (data) =>
+      (data.jobs || []).map((job) => ({
+        id: job.id, title: job.title, company: job.company_name, url: job.url,
+        location: job.candidate_required_location || "Remote", type: job.job_type,
+        salary: job.salary, description: job.description, date: job.publication_date
+      }))),
+    source("Arbeitnow Europe", "https://www.arbeitnow.com/api/job-board-api", (data) =>
+      (data.data || []).map((job) => ({
+        id: job.slug, title: job.title, company: job.company_name, url: job.url,
+        location: job.location, type: Array.isArray(job.job_types) ? job.job_types.join(", ") : "",
+        description: job.description, date: job.created_at
+      }))),
+    fetchJobicy()
+  ]);
+};
 const unique = [...new Map(listings.map((item) => [item.url, item])).values()];
 const relevant = unique.filter((item) => {
   const title = item.title.toLowerCase();
