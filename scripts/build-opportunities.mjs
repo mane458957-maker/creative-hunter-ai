@@ -1,18 +1,14 @@
 import fs from "node:fs/promises";
 
 const profile = JSON.parse(await fs.readFile("config/candidate-profile.json", "utf8"));
-const allSkills = [
+const uniqueSkills = [...new Set([
   ...profile.matching.employment.prioritySkills,
-  ...profile.matching.freelance.prioritySkills,
-  ...profile.skills
-].map((value) => value.toLowerCase());
-const uniqueSkills = [...new Set(allSkills)];
-const targetTerms = [
+  ...profile.matching.freelance.prioritySkills
+].map((value) => value.toLowerCase()))];
+const targetTitles = [
   ...profile.matching.employment.targetTitles,
-  ...profile.matching.freelance.targetServices,
-  ...uniqueSkills
+  ...profile.matching.freelance.targetServices
 ].map((value) => value.toLowerCase());
-const terms = [...new Set(targetTerms)];
 const headers = { "user-agent": "CreativeHunterAI/1.0 (public opportunity discovery dashboard)" };
 
 async function getJson(url) {
@@ -21,7 +17,10 @@ async function getJson(url) {
   return response.json();
 }
 function plainText(value = "") {
-  return String(value).replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, " ").trim();
+  return String(value)
+    .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ")
+    .replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&")
+    .replace(/<[^>]*>/g, " ").replace(/\\s+/g, " ").trim();
 }
 function classify(text, explicitType = "") {
   const type = explicitType.toLowerCase();
@@ -32,10 +31,11 @@ function score(text) {
   const haystack = text.toLowerCase();
   const matched = uniqueSkills.filter((skill) => haystack.includes(skill));
   const titleMatches = profile.matching.employment.targetTitles.filter((title) => haystack.includes(title.toLowerCase())).length;
-  return Math.min(97, Math.max(35, Math.round(45 + matched.length * 5 + titleMatches * 7)));
+  const locationBoost = /remote|dubai|united arab emirates|france|europe|worldwide/.test(haystack) ? 5 : 0;
+  return Math.min(97, Math.max(35, 40 + matched.length * 10 + titleMatches * 12 + locationBoost));
 }
 function normalize({ id, title, company, url, location, type, salary, description, date, source }) {
-  if (!title || !url) return null;
+  if (!title || !url) return null;\n  try { if (new URL(url).protocol !== "https:") return null; } catch { return null; }
   const summary = plainText(description).slice(0, 260);
   const text = [title, company, location, type, summary].join(" ");
   return {
@@ -83,8 +83,9 @@ await Promise.all([
 ]);
 const unique = [...new Map(listings.map((item) => [item.url, item])).values()];
 const relevant = unique.filter((item) => {
-  const text = [item.title, item.company, item.location, item.type, item.summary, ...item.tags].join(" ").toLowerCase();
-  return terms.some((term) => text.includes(term)) || /video|content|creative|design|social|shopify|webflow|digital|editor/.test(text);
+  const title = item.title.toLowerCase();
+  const body = [item.title, item.type, item.summary, ...item.tags].join(" ").toLowerCase();
+  return targetTitles.some((term) => title.includes(term)) || uniqueSkills.some((skill) => body.includes(skill));
 });
 const capped = relevant.sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 300);
 await fs.mkdir("_site/data", { recursive: true });
