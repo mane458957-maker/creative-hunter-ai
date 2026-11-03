@@ -34,7 +34,8 @@ jobs:
       - name: Refresh all sources on schedule or Jobicy on demand
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         env:
-          JOBICY_ONLY: ${{ github.event_name == 'workflow_dispatch' }}
+          JOBICY_ONLY: false
+          EXPANDED_ONLY: ${{ github.event_name == 'workflow_dispatch' }}
         run: node scripts/build-opportunities.mjs
       - name: Keep the latest snapshot during dashboard updates
         if: github.event_name == 'push'
