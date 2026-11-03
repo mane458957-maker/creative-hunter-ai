@@ -1,0 +1,19 @@
+# Local secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Personal source documents and raw exports
+*.pdf
+*.doc
+*.docx
+*.vcf
+data/raw/
+data/private/
+
+# Local development outputs
+node_modules/
+dist/
+.DS_Store
