@@ -36,7 +36,7 @@ Aucun scraping de pages protégées n’est activé; les offres freelance vienne
 
 ### 2. API ou manipulation à préparer
 
-- **France Travail** : source française à étudier ensuite. Il faudra identifier l’API de diffusion d’offres adaptée et suivre son inscription/autorisation; aucun accès ni identifiant n’est configuré.
+- **France Travail** : l’API de recherche d’offres est actuellement retirée du portail pendant la révision de ses conditions de diffusion. Elle n’est donc pas connectée. Il faudra reprendre ce point quand l’API sera disponible; aucun compte ni identifiant n’est à créer maintenant.
 - **Upwork** : API développeur et accès accordé par Upwork. Il faudra créer un compte développeur et demander les identifiants; les offres resteront consultées et proposées manuellement.
 - **Taux de change Frankfurter** : connecté sans clé pour convertir les budgets affichés en euros. Les taux sont quotidiens; l’équivalent affiché reste une estimation.
 
@@ -45,6 +45,11 @@ Aucun scraping de pages protégées n’est activé; les offres freelance vienne
 - **Indeed** : une adresse e-mail ou un compte candidat ne suffit pas. Les API documentées sont destinées à des partenaires et à des intégrations précises; il faut obtenir l’accès et l’autorisation adéquate avant tout raccordement.
 - **LinkedIn** : pas de collecte automatisée ni de contournement de protections. Une connexion nécessiterait une API ou un accès partenaire approuvé.
 - **Malt / Contra** : aucun flux public adapté n’est configuré. Il faut vérifier les API officielles et les conditions d’utilisation avant de connecter des données.
+- **Free-Work** : pages d’offres visibles sans compte, mais les CGU interdisent l’extraction d’une part substantielle de la base. Pas de collecte automatique sans accord écrit; les offres freelance de cette source sont surtout orientées IT.
+- **HelloWork** : pas de flux public de recherche configuré; les conditions interdisent l’extraction automatisée pour une réutilisation hors service. Demander une autorisation ou utiliser le site manuellement.
+- **Jobijoba** : les CGU interdisent explicitement le scraping, sauf licence écrite. Non connecté.
+- **Welcome to the Jungle** : les CGU interdisent les scripts et robots d’extraction automatisée. Non connecté.
+- **Jooble** : l’onglet ouvert est arrêté sur une vérification anti-robot. Aucun contournement ni scraping de cette page; il faudrait une API officielle si Jooble en accorde l’accès.
 - **Compte Freelancer** : l’API publique ne sert qu’à lire les annonces. Pour envoyer une proposition, Mohammed devra créer son compte lui-même et accepter les règles de la plateforme. Nous le ferons ensemble plus tard; aucun compte n’est créé ici.
 
 Aucune candidature, proposition ou prise de contact n’est envoyée automatiquement. Les identifiants éventuels devront être ajoutés comme secrets privés GitHub, jamais dans les fichiers publics.
