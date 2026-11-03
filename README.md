@@ -10,7 +10,7 @@ Tableau de découverte d’emplois créatifs et de projets freelance publiés pa
 - **Demandes clients :** projets actifs publiés sur Freelancer.com, notamment en création de sites, e-commerce, montage vidéo, contenus et SEO. Les clients situés en Inde sont exclus. Les budgets sont convertis en euros; les projets chiffrés sous 400 € sont masqués. Les demandes sans budget affiché restent visibles après les projets chiffrés.
 - **Mobilité :** emploi en présentiel uniquement en France ou aux Émirats arabes unis. Les emplois à distance et les projets freelance peuvent être internationaux.
 - Les annonces qui exigent un niveau avancé dans une langue non indiquée sur le CV sont filtrées lorsque l’annonce précise cette exigence.
-- Les sources publiques sont actualisées quatre fois par jour. Les mises à jour du tableau rafraîchissent Freelancer.com, Jobicy, Remote OK, Himalayas et We Work Remotely, tout en conservant les autres flux pour respecter leurs limites. Les missions sont triées par budget estimé décroissant, puis par nombre de propositions et date.
+- Les offres d’emploi sont actualisées quatre fois par jour. Freelancer.com est actualisé toutes les 15 minutes pour repérer les missions rapidement; les autres flux sont conservés lors de cette mise à jour. Les missions sont triées par budget estimé décroissant, puis par nombre de propositions et date.
 - Chaque annonce conserve son lien d’origine. Les annonces en anglais, allemand ou néerlandais ont un lien **« Traduire l’annonce en français »**.
 - Aucune candidature, proposition, enchère ni aucun message n’est envoyé automatiquement. Pour postuler à un projet Freelancer.com, il faut utiliser son compte Freelancer.
 
