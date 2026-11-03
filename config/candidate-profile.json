@@ -10,7 +10,17 @@
     "baseCity": "Dubai",
     "country": "United Arab Emirates",
     "professionalHeadline": "Digital Creator | Video Editor | Web Designer",
-    "summary": "Digital creator and entrepreneur experienced in building online businesses, designing and maintaining websites, producing visual assets, editing video, and managing social media. Additional background in SEO, e-commerce operations, customer support and team coordination."
+    "summary": "Digital creator and entrepreneur experienced in building online businesses, designing and maintaining websites, producing visual assets, editing video, and managing social media. Additional background in SEO, e-commerce operations, customer support and team coordination.",
+    "portfolioLinks": [
+      {
+        "label": "GOUAL ART portfolio",
+        "url": "https://goual.fr/"
+      },
+      {
+        "label": "Instagram · @goual_art",
+        "url": "https://www.instagram.com/goual_art/"
+      }
+    ]
   },
   "experience": [
     {
@@ -93,7 +103,13 @@
     "Adobe Photoshop",
     "Microsoft Office",
     "SAP",
-    "CIEL"
+    "CIEL",
+    "2D animation",
+    "3D animation",
+    "animated series",
+    "AI animation",
+    "character animation",
+    "motion graphics"
   ],
   "languages": [
     {
@@ -180,7 +196,12 @@
         "character design",
         "3D character modeling",
         "motion graphics",
-        "storyboard animation"
+        "storyboard animation",
+        "animation video ads",
+        "recipe animation",
+        "animated social media ads",
+        "animation production",
+        "animated storytelling"
       ],
       "preferredWorkMode": [
         "remote",
@@ -202,7 +223,11 @@
         "cartoon animation",
         "AI animation",
         "character design",
-        "motion graphics"
+        "motion graphics",
+        "animation video ads",
+        "animated social media ads",
+        "animation production",
+        "animated storytelling"
       ]
     }
   },
