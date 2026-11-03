@@ -66,7 +66,7 @@ function score(text) {
   const locationBoost = /remote|dubai|united arab emirates|france|europe|worldwide/.test(haystack) ? 5 : 0;
   return Math.min(97, Math.max(35, 55 + matched.length * 12 + titleMatches * 10 + locationBoost));
 }
-function normalize({ id, title, company, url, location, type, salary, description, date, source }) {
+function normalize({ id, title, company, url, location, type, salary, description, date, source, budgetMinimum, budgetMaximum, budgetCurrency, clientCountry, bidCount }) {
   if (!title || !url) return null;
   try { if (new URL(url).protocol !== "https:") return null; } catch { return null; }
   const summary = plainText(description).slice(0, 260);
@@ -80,6 +80,11 @@ function normalize({ id, title, company, url, location, type, salary, descriptio
     location: location || "Not specified",
     type: type || "Not specified",
     pay: salary || "Not specified",
+    budgetMinimum: budgetMinimum == null ? null : Number(budgetMinimum),
+    budgetMaximum: budgetMaximum == null ? null : Number(budgetMaximum),
+    budgetCurrency: budgetCurrency || "",
+    clientCountry: clientCountry || "",
+    bidCount: bidCount == null ? null : Number(bidCount),
     score: score(text),
     tags: uniqueSkills.filter((skill) => text.toLowerCase().includes(skill)).slice(0, 4),
     summary,
@@ -137,6 +142,11 @@ const fetchFreelancer = () => source("Freelancer.com", "https://www.freelancer.c
     type: "Freelance project",
     salary: project.budget?.minimum != null && project.budget?.maximum != null
       ? String(project.currency?.code || "") + " " + project.budget.minimum + "-" + project.budget.maximum : "",
+    budgetMinimum: project.budget?.minimum,
+    budgetMaximum: project.budget?.maximum,
+    budgetCurrency: project.currency?.code,
+    clientCountry: project.client?.country?.name || project.client?.country || project.location?.country?.name || project.location?.country || project.owner_country || "",
+    bidCount: project.bid_stats?.bid_count,
     description: project.preview_description || project.description || "",
     date: project.submitdate ? new Date(project.submitdate * 1000).toISOString() : ""
   })));
@@ -170,9 +180,24 @@ if (expandedOnly || jobicyOnly) {
   ]);
 };
 const unique = [...new Map(listings.map((item) => [item.url, item])).values()];
+let eurRates = { EUR: 1 };
+try {
+  const rates = await getJson("https://api.frankfurter.dev/v2/rates?base=EUR");
+  for (const entry of rates) eurRates[entry.quote] = entry.rate;
+} catch {}
+for (const item of unique.filter((listing) => listing.kind === "freelance")) {
+  const rate = eurRates[item.budgetCurrency];
+  if (rate && item.budgetMinimum != null) item.budgetMinimumEur = item.budgetMinimum / rate;
+  if (rate && item.budgetMaximum != null) item.budgetMaximumEur = item.budgetMaximum / rate;
+}
 const relevant = unique.filter((item) => {
   if (hasUnsupportedLanguageRequirement([item.title, item.summary].join(" "))) return false;
   if (!employmentLocationAllowed(item)) return false;
+  if (item.kind === "freelance") {
+    const clientCountry = normalizeText(item.clientCountry);
+    if (clientCountry.includes("india") || clientCountry === "in") return false;
+    if (!Number.isFinite(item.budgetMinimumEur) || item.budgetMinimumEur < 400) return false;
+  }
   const title = item.title.toLowerCase();
   const body = [item.title, item.type, item.summary, ...item.tags].join(" ").toLowerCase();
   const roleInTitle = targetTitles.some((term) => title.includes(term));
@@ -182,7 +207,14 @@ const relevant = unique.filter((item) => {
   if (item.kind === "job") return roleInTitle || skillInTitle || creativeRole || relevantSkills >= 2;
   return roleInTitle || skillInTitle || creativeRole || relevantSkills >= 1;
 });
-const capped = relevant.sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 300);
+const capped = relevant.sort((a, b) => {
+  if (a.kind === "freelance" && b.kind === "freelance") {
+    return (b.budgetMaximumEur || b.budgetMinimumEur || 0) - (a.budgetMaximumEur || a.budgetMinimumEur || 0)
+      || (a.bidCount ?? Number.MAX_SAFE_INTEGER) - (b.bidCount ?? Number.MAX_SAFE_INTEGER)
+      || (b.date || "").localeCompare(a.date || "");
+  }
+  return (b.date || "").localeCompare(a.date || "");
+}).slice(0, 300);
 await fs.mkdir("_site/data", { recursive: true });
 await fs.writeFile("_site/data/opportunities.json", JSON.stringify({
   generatedAt: new Date().toISOString(),
