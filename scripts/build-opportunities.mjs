@@ -243,10 +243,8 @@ const relevant = unique.filter((item) => {
   if (hasUnsupportedLanguageRequirement([item.title, item.summary].join(" "))) return false;
   if (!employmentLocationAllowed(item)) return false;
   if (item.kind === "freelance") {
-    const clientCountry = normalizeText(item.clientCountry);
-    if (!clientCountry || clientCountry.includes("india") || clientCountry === "in") return false;
     const hasBudget = item.budgetMinimum != null || item.budgetMaximum != null;
-    if (hasBudget && (!Number.isFinite(item.budgetMinimumEur) || item.budgetMinimumEur < 400)) return false;
+    if (hasBudget && (!Number.isFinite(item.budgetMinimumEur) || item.budgetMinimumEur < 200)) return false;
   }
   const title = item.title.toLowerCase();
   const body = [item.title, item.type, item.summary, ...item.tags].join(" ").toLowerCase();
