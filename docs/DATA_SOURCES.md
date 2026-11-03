@@ -44,7 +44,10 @@ Aucun scraping de pages protégées n’est activé; les offres freelance vienne
 
 - **Indeed** : une adresse e-mail ou un compte candidat ne suffit pas. Les API documentées sont destinées à des partenaires et à des intégrations précises; il faut obtenir l’accès et l’autorisation adéquate avant tout raccordement.
 - **LinkedIn** : pas de collecte automatisée ni de contournement de protections. Une connexion nécessiterait une API ou un accès partenaire approuvé.
-- **Malt / Contra** : aucun flux public adapté n’est configuré. Il faut vérifier les API officielles et les conditions d’utilisation avant de connecter des données.
+- **Malt** : le répertoire public permet aux clients de découvrir des profils de freelances; lien manuel ajouté dans la rubrique Animation. Aucun flux public d’offres/API n’est configuré pour importer des missions.
+- **Fiverr** : marketplace de prestations; lien manuel vers la catégorie Animation ajouté dans la rubrique Animation. La création d’une offre de service est à faire par Mohammed; aucune annonce n’est importée automatiquement.
+- **Upwork** : accès développeur officiel et autorisation requis pour une intégration automatique. La recherche manuelle de projets d’animation est liée dans la rubrique Animation.
+- **Contra** : aucun flux public adapté n’est configuré. Vérifier les API officielles et les conditions avant une éventuelle connexion.
 - **Free-Work** : pages d’offres visibles sans compte, mais les CGU interdisent l’extraction d’une part substantielle de la base. Pas de collecte automatique sans accord écrit; les offres freelance de cette source sont surtout orientées IT.
 - **HelloWork** : pas de flux public de recherche configuré; les conditions interdisent l’extraction automatisée pour une réutilisation hors service. Demander une autorisation ou utiliser le site manuellement.
 - **Jobijoba** : les CGU interdisent explicitement le scraping, sauf licence écrite. Non connecté.
