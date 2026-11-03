@@ -186,8 +186,9 @@ const fetchFreelancer = () => source("Freelancer.com", "https://www.freelancer.c
     budgetMinimum: project.budget?.minimum,
     budgetMaximum: project.budget?.maximum,
     budgetCurrency: project.currency?.code,
-    clientCountry: project.client?.country?.name || project.client?.country || project.location?.country?.name || project.location?.country || project.owner_country || "",
+    clientCountry: project.client?.country?.name || project.client?.country?.code || (typeof project.client?.country === "string" ? project.client.country : "") || project.location?.country?.name || project.location?.country?.code || (typeof project.location?.country === "string" ? project.location.country : "") || "",
     bidCount: project.bid_stats?.bid_count,
+    location: [project.location?.city, project.location?.country?.name || project.location?.country?.code || (typeof project.location?.country === "string" ? project.location.country : "")].filter(Boolean).join(" · ") || "Remote · international",
     description: project.preview_description || project.description || "",
     date: project.submitdate ? new Date(project.submitdate * 1000).toISOString() : ""
   })));
@@ -244,7 +245,7 @@ const relevant = unique.filter((item) => {
   if (!employmentLocationAllowed(item)) return false;
   if (item.kind === "freelance") {
     const clientCountry = normalizeText(item.clientCountry);
-    if (clientCountry.includes("india") || clientCountry === "in") return false;
+    if (!clientCountry || clientCountry.includes("india") || clientCountry === "in") return false;
     const hasBudget = item.budgetMinimum != null || item.budgetMaximum != null;
     if (hasBudget && (!Number.isFinite(item.budgetMinimumEur) || item.budgetMinimumEur < 400)) return false;
   }
