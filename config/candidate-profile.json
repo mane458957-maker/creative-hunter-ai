@@ -17,31 +17,58 @@
       "title": "Founder & Digital Creator",
       "organization": "Goual Art",
       "period": "2026-present",
-      "focus": ["creative brand development", "visual portfolio", "website", "social media"]
+      "focus": [
+        "creative brand development",
+        "visual portfolio",
+        "website",
+        "social media"
+      ]
     },
     {
       "title": "Founder & Digital Project Manager",
       "organization": "The Art of Vision",
       "period": "2020-2025",
-      "focus": ["WordPress", "Shopify", "Webflow", "visual design", "social media", "SEO"]
+      "focus": [
+        "WordPress",
+        "Shopify",
+        "Webflow",
+        "visual design",
+        "social media",
+        "SEO"
+      ]
     },
     {
       "title": "Founder & Training Centre Manager",
       "organization": "MG Academy",
       "period": "2022-2025",
-      "focus": ["training operations", "team recruitment", "company placements"]
+      "focus": [
+        "training operations",
+        "team recruitment",
+        "company placements"
+      ]
     },
     {
       "title": "Logistics Back Office Supervisor",
       "organization": "Snapcar",
       "period": "2015-2020",
-      "focus": ["operations", "planning", "customer support", "issue resolution"]
+      "focus": [
+        "operations",
+        "planning",
+        "customer support",
+        "issue resolution"
+      ]
     },
     {
       "title": "Earlier experience",
       "organization": "Drive Prestige, Panasonic, L'Oréal Paris, Alliance Gestion G.I.E.",
       "period": "2007-2015",
-      "focus": ["entrepreneurship", "sales administration", "customer service", "operations", "reporting"]
+      "focus": [
+        "entrepreneurship",
+        "sales administration",
+        "customer service",
+        "operations",
+        "reporting"
+      ]
     }
   ],
   "education": [
@@ -69,27 +96,114 @@
     "CIEL"
   ],
   "languages": [
-    { "name": "French", "level": "native" },
-    { "name": "Arabic (Algerian Darija)", "level": "spoken" },
-    { "name": "English", "level": "good working proficiency" },
-    { "name": "Spanish", "level": "comprehension" }
+    {
+      "name": "French",
+      "level": "native"
+    },
+    {
+      "name": "Arabic (Algerian Darija)",
+      "level": "spoken"
+    },
+    {
+      "name": "English",
+      "level": "good working proficiency"
+    },
+    {
+      "name": "Spanish",
+      "level": "comprehension"
+    }
   ],
   "matching": {
     "employment": {
       "enabled": true,
-      "targetTitles": ["Video Editor", "Digital Content Creator", "Social Media Specialist", "Web Designer", "E-commerce Specialist", "Digital Project Coordinator"],
-      "contractTypes": ["full-time", "fixed-term", "contract"],
-      "locations": ["Dubai", "United Arab Emirates", "France", "remote"],
-      "onsiteLocations": ["France", "United Arab Emirates"],
+      "targetTitles": [
+        "Video Editor",
+        "Digital Content Creator",
+        "Social Media Specialist",
+        "Web Designer",
+        "E-commerce Specialist",
+        "Digital Project Coordinator"
+      ],
+      "contractTypes": [
+        "full-time",
+        "fixed-term",
+        "contract"
+      ],
+      "locations": [
+        "Dubai",
+        "United Arab Emirates",
+        "France",
+        "remote"
+      ],
+      "onsiteLocations": [
+        "France",
+        "United Arab Emirates"
+      ],
       "remoteAllowedWorldwide": true,
-      "prioritySkills": ["video editing", "web design", "Shopify", "Webflow", "visual content", "social media", "SEO"],
-      "workingLanguages": ["French", "English"]
+      "prioritySkills": [
+        "video editing",
+        "web design",
+        "Shopify",
+        "Webflow",
+        "visual content",
+        "social media",
+        "SEO"
+      ],
+      "workingLanguages": [
+        "French",
+        "English"
+      ]
     },
     "freelance": {
       "enabled": true,
-      "targetServices": ["video editing", "short-form content", "social media content", "web design", "Shopify setup", "Webflow websites", "visual content", "SEO", "digital creative project coordination"],
-      "preferredWorkMode": ["remote", "Dubai-based"],
-      "prioritySkills": ["video editing", "advertising", "storytelling", "e-commerce", "Shopify", "Webflow", "social media", "visual content"]
+      "targetServices": [
+        "video editing",
+        "short-form content",
+        "social media content",
+        "web design",
+        "Shopify setup",
+        "Webflow websites",
+        "visual content",
+        "SEO",
+        "digital creative project coordination",
+        "3D animation",
+        "3D animator",
+        "2D animation",
+        "2D animator",
+        "character animation",
+        "character animator",
+        "animated series",
+        "cartoon animation",
+        "cartoon series",
+        "animation studio",
+        "AI animation",
+        "character design",
+        "3D character modeling",
+        "motion graphics",
+        "storyboard animation"
+      ],
+      "preferredWorkMode": [
+        "remote",
+        "Dubai-based"
+      ],
+      "prioritySkills": [
+        "video editing",
+        "advertising",
+        "storytelling",
+        "e-commerce",
+        "Shopify",
+        "Webflow",
+        "social media",
+        "visual content",
+        "3D animation",
+        "2D animation",
+        "character animation",
+        "animated series",
+        "cartoon animation",
+        "AI animation",
+        "character design",
+        "motion graphics"
+      ]
     }
   },
   "matchingNotes": [
