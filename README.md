@@ -6,8 +6,8 @@ Tableau de découverte d’offres d’emploi créatives et de missions freelance
 
 ## Sources connectées
 
-- **Emploi :** Remotive, Arbeitnow Europe, Jobicy, Remote OK et Himalayas.
-- **Freelance :** annonces portant explicitement la mention freelance, contractant ou projet, affichées dans une vue distincte. Les prestations que Mohammed peut proposer sont présentées séparément dans **Mes prestations**.
+- **Emploi :** Emploi : Remotive, Arbeitnow Europe, Jobicy, Remote OK et Himalayas. Projets clients : Freelancer.com.
+- **Missions clients :** projets freelance publiés par des clients, dont le flux public Freelancer.com, avec recherche par compétences créatives. Les demandes de projets publiées par des clients sont présentées dans **Demandes clients** (sites web, vidéo, e-commerce et contenus).
 - **Mobilité :** emploi en présentiel uniquement en France ou aux Émirats arabes unis; emploi à distance et missions freelance ouverts à l’international.
 - Les flux sont actualisés quatre fois par jour. Les annonces qui exigent un niveau avancé dans une langue non indiquée sur le CV sont exclues du flux. Les mises à jour du tableau récupèrent Jobicy et conservent le dernier instantané des autres flux pour respecter leurs limites de requêtes.
 - Chaque annonce renvoie à sa source d’origine. Certaines annonces peuvent être en anglais, allemand ou néerlandais; le bouton **« Traduire l’annonce en français »** ouvre la traduction de la page source.
