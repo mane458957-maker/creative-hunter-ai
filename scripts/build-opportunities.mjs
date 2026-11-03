@@ -42,6 +42,13 @@ function hasUnsupportedLanguageRequirement(value = "") {
     !allowedLanguages.includes(language.name) && language.words.test(text)
   );
 }
+function employmentLocationAllowed(item) {
+  if (item.kind !== "job") return true;
+  const place = normalizeText([item.location, item.type, item.summary].join(" "));
+  if (!place || /not specified|non precise|unspecified/.test(place)) return true;
+  if (/remote|work from home|worldwide|anywhere|distributed|telecommut/.test(place)) return true;
+  return /france|french|dubai|abu dhabi|sharjah|ajman|ras al khaimah|united arab emirates|\\buae\\b|emirates/.test(place);
+}
 function classify(text, explicitType = "") {
   const type = explicitType.toLowerCase();
   if (type.includes("freelance") || type.includes("contractor") || type.includes("project-based")) return "freelance";
@@ -145,6 +152,7 @@ if (expandedOnly || jobicyOnly) {
 const unique = [...new Map(listings.map((item) => [item.url, item])).values()];
 const relevant = unique.filter((item) => {
   if (hasUnsupportedLanguageRequirement([item.title, item.summary].join(" "))) return false;
+  if (!employmentLocationAllowed(item)) return false;
   const title = item.title.toLowerCase();
   const body = [item.title, item.type, item.summary, ...item.tags].join(" ").toLowerCase();
   const roleInTitle = targetTitles.some((term) => title.includes(term));
