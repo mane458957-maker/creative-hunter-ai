@@ -79,7 +79,9 @@
       "enabled": true,
       "targetTitles": ["Video Editor", "Digital Content Creator", "Social Media Specialist", "Web Designer", "E-commerce Specialist", "Digital Project Coordinator"],
       "contractTypes": ["full-time", "fixed-term", "contract"],
-      "locations": ["Dubai", "United Arab Emirates", "remote", "France", "Europe", "international"],
+      "locations": ["Dubai", "United Arab Emirates", "France", "remote"],
+      "onsiteLocations": ["France", "United Arab Emirates"],
+      "remoteAllowedWorldwide": true,
       "prioritySkills": ["video editing", "web design", "Shopify", "Webflow", "visual content", "social media", "SEO"],
       "workingLanguages": ["French", "English"]
     },
@@ -91,7 +93,7 @@
     }
   },
   "matchingNotes": [
-    "Target roles and locations are starter suggestions inferred from the CV, not confirmed preferences.",
+    "Target roles are starter suggestions inferred from the CV. For employment, on-site work is limited to France and the United Arab Emirates; remote work is allowed worldwide. Freelance missions may be worldwide.",
     "No salary minimum or availability schedule was stated in the CV; do not infer one.",
     "Match scores are illustrative until live source data and a scoring model are connected."
   ]
