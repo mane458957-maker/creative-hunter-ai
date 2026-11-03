@@ -179,6 +179,7 @@ const relevant = unique.filter((item) => {
   const skillInTitle = uniqueSkills.some((skill) => title.includes(skill));
   const relevantSkills = uniqueSkills.filter((skill) => body.includes(skill)).length;
   const creativeRole = /video|film|motion|content creator|content producer|social media|web design|shopify|webflow|e-?commerce|visual|creative|graphic|seo/.test(title);
+  if (item.kind === "job") return roleInTitle || skillInTitle || creativeRole || relevantSkills >= 2;
   return roleInTitle || skillInTitle || creativeRole || relevantSkills >= 1;
 });
 const capped = relevant.sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 300);
