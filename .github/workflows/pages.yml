@@ -31,8 +31,14 @@ jobs:
         run: |
           mkdir -p _site/data
           cp index.html _site/index.html
-      - name: Fetch and match live opportunities
+      - name: Refresh all sources on schedule or Jobicy on demand
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          JOBICY_ONLY: ${{ github.event_name == 'workflow_dispatch' }}
         run: node scripts/build-opportunities.mjs
+      - name: Keep the latest snapshot during dashboard updates
+        if: github.event_name == 'push'
+        run: curl --fail --silent --show-error https://mane458957-maker.github.io/creative-hunter-ai/data/opportunities.json --output _site/data/opportunities.json
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
