@@ -1,31 +1,32 @@
 # Creative Hunter AI
 
-A private opportunity discovery workspace for creative employment and freelance missions. The starter is a dependency-free, responsive dashboard that runs locally in a browser.
+A responsive opportunity dashboard for creative employment and freelance missions.
+
+**Live site:** https://mane458957-maker.github.io/creative-hunter-ai/
 
 ## What is here
 
-- **Employment engine** for full-time, fixed-term, contract and international roles.
-- **Freelance engine** for project-based video, motion, web, AI-assisted creative, storytelling and advertising work.
-- Search, location and match filters with separate views and saved-opportunity controls.
-- A private candidate profile configuration derived from the supplied English CV. Personal contact details and the CV itself are intentionally excluded.
-- A source register that distinguishes configured demo data from integrations still needing access, credentials or authorization.
+- Separate employment and freelance discovery views.
+- Search, location and match filters, plus saved opportunities stored in browser local storage.
+- Candidate matching preferences derived from the supplied English CV.
+- A source register showing what is connected versus what still needs access, credentials or authorization.
 
-## Run the dashboard
+The dashboard uses clearly marked **sample opportunities**, not live listings. No job board, freelance marketplace, notification service or database is connected yet. See [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md).
 
-Open `index.html` in a modern browser. No build step or API credentials are needed. The opportunities shown in the starter are explicitly marked as **sample data**; they are not live listings. Saved items currently live in browser local storage on that device.
+## Run locally
 
-## Candidate setup
+Open `index.html` in a modern browser. No build step or API credentials are needed.
 
-Review `config/candidate-profile.json` and adjust the search preferences as needed. It contains professional summary, experience, skills, languages and inferred target roles, but no email, phone number, street address or CV file. Keep any future secrets in environment variables or a local `.env` file; never commit them.
+## Automatic publishing
 
-## Sources and automation
+GitHub Actions publishes the root `index.html` to GitHub Pages whenever it changes on `main`. Updates to the dashboard therefore appear on the live site automatically after the deployment finishes.
 
-See `docs/DATA_SOURCES.md`. No job board, freelance marketplace, email alert, database or notification integration is configured yet. Connector work must use official APIs, feeds or expressly authorized access. Do not scrape sources whose terms prohibit it.
+## Candidate profile and repository visibility
+
+The repository is currently public to enable GitHub Pages on this account. The CV PDF, phone number, email address and street address are excluded. The public repository does include a professional profile file with the candidate's name, city, experience, education, skills and languages. The user has approved this temporary public visibility.
+
+If the repository is made private again, GitHub Pages on the current plan will be unpublished. The public site is visible to anyone while deployed.
 
 ## Application safety
 
-Creative Hunter AI is for discovery and review. It **never submits applications, proposals, bids or messages automatically**. A person must review each opportunity and take any application action themselves.
-
-## Project status
-
-This is a working UI scaffold with sample opportunities and local saved items, not a live search service. Connect and verify permitted data sources before treating results as current.
+Creative Hunter AI is for discovery and review. It never submits applications, proposals, bids or messages automatically. A person must review each opportunity and take any application action themselves.
