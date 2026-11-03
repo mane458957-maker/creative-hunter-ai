@@ -27,7 +27,7 @@ Aucun scraping n’est activé. Aucun identifiant de plateforme n’est configur
 
 ## Traduction
 
-L’interface est en français. Les annonces peuvent rester dans leur langue d’origine; le lien **« Traduire l’annonce en français »** ouvre la traduction de la page source. Une traduction intégrée des annonces nécessiterait un service de traduction avec une clé API et des règles de confidentialité à vérifier.
+L’interface est en français. Les annonces peuvent rester dans leur langue d’origine; le lien **« Traduire l’annonce en français »** ouvre la traduction de la page source. Une traduction intégrée des annonces nécessiterait un service de traduction avec une clé API et des règles de confidentialité à vérifier. Les annonces exigeant un niveau avancé dans une langue qui n’est pas indiquée sur le CV sont filtrées quand le texte le précise.
 
 ## Actualisation et confidentialité
 
