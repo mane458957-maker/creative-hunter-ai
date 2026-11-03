@@ -16,6 +16,11 @@ async function getJson(url) {
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   return response.json();
 }
+async function getText(url) {
+  const response = await fetch(url, { headers, signal: AbortSignal.timeout(25000) });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.text();
+}
 function plainText(value = "") {
   return String(value)
     .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ")
@@ -115,6 +120,33 @@ const fetchJobicy = () => source("Jobicy", "https://jobicy.com/api/jobs?count=10
     salary: job.salaryMin && job.salaryMax ? `${job.salaryCurrency || ""} ${job.salaryMin}-${job.salaryMax} ${job.salaryPeriod || ""}`.trim() : "",
     description: job.jobExcerpt || job.jobDescription, date: job.pubDate
   })));
+async function fetchWeWorkRemotely() {
+  const name = "We Work Remotely";
+  try {
+    const xml = await getText("https://weworkremotely.com/remote-jobs.rss");
+    const blocks = [...xml.matchAll(/<item\\b[^>]*>([\\s\\S]*?)<\\/item>/gi)].map((match) => match[1]);
+    const field = (block, tag) => plainText(block.match(new RegExp("<" + tag + "[^>]*>([\\\\s\\\\S]*?)</" + tag + ">", "i"))?.[1] || "");
+    const items = blocks.map((block) => {
+      const rawTitle = field(block, "title");
+      const parts = rawTitle.split(/\\s+-\\s+/);
+      return {
+        id: field(block, "guid") || field(block, "link"),
+        title: parts.length > 1 ? parts.slice(1).join(" - ") : rawTitle,
+        company: parts.length > 1 ? parts[0] : name,
+        url: field(block, "link"),
+        location: "Remote",
+        type: "Remote",
+        description: field(block, "description"),
+        date: field(block, "pubDate")
+      };
+    }).filter((item) => !hasUnsupportedLanguageRequirement([item.title, item.description].join(" ")))
+      .map((item) => normalize({ ...item, source: name })).filter(Boolean);
+    listings.push(...items);
+    sourceStatus.push({ name, status: "connected", count: items.length });
+  } catch (error) {
+    sourceStatus.push({ name, status: "temporarily_unavailable", count: 0, detail: String(error.message || error).slice(0, 100) });
+  }
+}
 const expandedOnly = process.env.EXPANDED_ONLY === "true";
 const jobicyOnly = process.env.JOBICY_ONLY === "true";
 const fetchRemoteOk = () => source("Remote OK", "https://remoteok.com/api", (data) =>
@@ -153,8 +185,8 @@ const fetchFreelancer = () => source("Freelancer.com", "https://www.freelancer.c
 
 if (expandedOnly || jobicyOnly) {
   const previous = await getJson("https://mane458957-maker.github.io/creative-hunter-ai/data/opportunities.json").catch(() => null);
-  const refreshedSources = expandedOnly ? ["Jobicy", "Remote OK", "Himalayas", "Freelancer.com"] : ["Jobicy"];
-  await Promise.all([fetchJobicy(), ...(expandedOnly ? [fetchRemoteOk(), fetchHimalayas(), fetchFreelancer()] : [])]);
+  const refreshedSources = expandedOnly ? ["Jobicy", "Remote OK", "Himalayas", "Freelancer.com", "We Work Remotely"] : ["Jobicy"];
+  await Promise.all([fetchJobicy(), ...(expandedOnly ? [fetchRemoteOk(), fetchHimalayas(), fetchFreelancer(), fetchWeWorkRemotely()] : [])]);
   if (previous) {
     listings.push(...(previous.opportunities || []).filter((item) => !refreshedSources.includes(item.source)));
     sourceStatus.push(...(previous.sources || []).filter((item) => !refreshedSources.includes(item.name)));
@@ -176,7 +208,8 @@ if (expandedOnly || jobicyOnly) {
     fetchJobicy(),
     fetchRemoteOk(),
     fetchHimalayas(),
-    fetchFreelancer()
+    fetchFreelancer(),
+    fetchWeWorkRemotely()
   ]);
 };
 const unique = [...new Map(listings.map((item) => [item.url, item])).values()];
