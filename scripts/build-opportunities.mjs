@@ -23,18 +23,18 @@ function plainText(value = "") {
     .replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 }
 function normalizeText(value) {
-  return String(value).normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").toLowerCase();
+  return String(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
 const allowedLanguages = (profile.matching.employment.workingLanguages || []).map(normalizeText);
 const languageAliases = [
-  { name: "english", words: /\\b(?:english|anglais|englisch)\\b/ },
-  { name: "french", words: /\\b(?:french|francais|francais|franzoesisch)\\b/ },
-  { name: "german", words: /\\b(?:german|deutsch\\w*|allemand\\w*)\\b/ },
-  { name: "dutch", words: /\\b(?:dutch|nederlands?\\w*|neerlandais\\w*|hollandais\\w*)\\b/ },
-  { name: "spanish", words: /\\b(?:spanish|espanol|espagnol)\\b/ },
-  { name: "arabic", words: /\\b(?:arabic|arabe)\\b/ }
+  { name: "english", words: /\b(?:english|anglais|englisch)\b/ },
+  { name: "french", words: /\b(?:french|francais|franzoesisch)\b/ },
+  { name: "german", words: /\b(?:german|deutsch\w*|allemand\w*)\b/ },
+  { name: "dutch", words: /\b(?:dutch|nederlands?\w*|neerlandais\w*|hollandais\w*)\b/ },
+  { name: "spanish", words: /\b(?:spanish|espanol|espagnol)\b/ },
+  { name: "arabic", words: /\b(?:arabic|arabe)\b/ }
 ];
-const strongLanguageRequirement = /\\b(?:c1|c2|b2|fluent|native|advanced|proficient|excellent|very good|good knowledge|strong command|must speak|required|kenntnisse|sprachkenntnisse|sehr gute|gute kenntnisse|fliessend|verhandlungssicher|courant|maitrise|bilingue|vloeiend|moedertaal)\\b/i;
+const strongLanguageRequirement = /\b(?:c1|c2|b2|fluent|native|advanced|proficient|excellent|very good|good knowledge|strong command|must speak|required|kenntnisse|sprachkenntnisse|sehr gute|gute kenntnisse|fliessend|verhandlungssicher|courant|maitrise|bilingue|vloeiend|moedertaal)\b/i;
 function hasUnsupportedLanguageRequirement(value = "") {
   const text = normalizeText(value);
   return languageAliases.some((language) => {
@@ -46,6 +46,13 @@ function hasUnsupportedLanguageRequirement(value = "") {
     }
     return false;
   });
+}
+function employmentLocationAllowed(item) {
+  if (item.kind !== "job") return true;
+  const place = normalizeText([item.location, item.type, item.summary].join(" "));
+  if (!place || /not specified|non precise|unspecified/.test(place)) return true;
+  if (/remote|work from home|worldwide|anywhere|distributed|telecommut/.test(place)) return true;
+  return /france|french|dubai|abu dhabi|sharjah|ajman|ras al khaimah|united arab emirates|\buae\b|emirates/.test(place);
 }
 function classify(text, explicitType = "") {
   const type = explicitType.toLowerCase();
@@ -120,10 +127,24 @@ const fetchHimalayas = () => source("Himalayas", "https://himalayas.app/jobs/api
     salary: job.minSalary && job.maxSalary ? `${job.currency || ""} ${job.minSalary}-${job.maxSalary} / ${job.salaryPeriod || "year"}`.trim() : "",
     description: job.excerpt || job.description, date: job.pubDate
   })));
+const fetchFreelancer = () => source("Freelancer.com", "https://www.freelancer.com/api/projects/0.1/projects/active/?limit=100&sort_field=time_updated&order=desc", (data) =>
+  (data.result?.projects || []).map((project) => ({
+    id: project.id,
+    title: project.title,
+    company: "Client · Freelancer.com",
+    url: project.seo_url ? "https://www.freelancer.com/projects/" + project.seo_url : "",
+    location: "Remote · international",
+    type: "Freelance project",
+    salary: project.budget?.minimum != null && project.budget?.maximum != null
+      ? String(project.currency?.code || "") + " " + project.budget.minimum + "-" + project.budget.maximum : "",
+    description: project.preview_description || project.description || "",
+    date: project.submitdate ? new Date(project.submitdate * 1000).toISOString() : ""
+  })));
+
 if (expandedOnly || jobicyOnly) {
   const previous = await getJson("https://mane458957-maker.github.io/creative-hunter-ai/data/opportunities.json").catch(() => null);
-  const refreshedSources = expandedOnly ? ["Jobicy", "Remote OK", "Himalayas"] : ["Jobicy"];
-  await Promise.all([fetchJobicy(), ...(expandedOnly ? [fetchRemoteOk(), fetchHimalayas()] : [])]);
+  const refreshedSources = expandedOnly ? ["Jobicy", "Remote OK", "Himalayas", "Freelancer.com"] : ["Jobicy"];
+  await Promise.all([fetchJobicy(), ...(expandedOnly ? [fetchRemoteOk(), fetchHimalayas(), fetchFreelancer()] : [])]);
   if (previous) {
     listings.push(...(previous.opportunities || []).filter((item) => !refreshedSources.includes(item.source)));
     sourceStatus.push(...(previous.sources || []).filter((item) => !refreshedSources.includes(item.name)));
@@ -144,7 +165,8 @@ if (expandedOnly || jobicyOnly) {
       }))),
     fetchJobicy(),
     fetchRemoteOk(),
-    fetchHimalayas()
+    fetchHimalayas(),
+    fetchFreelancer()
   ]);
 };
 const unique = [...new Map(listings.map((item) => [item.url, item])).values()];
