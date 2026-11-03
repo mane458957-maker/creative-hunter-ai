@@ -1,26 +1,27 @@
 # Creative Hunter AI
 
-Tableau de découverte d’offres d’emploi créatives et de missions freelance.
+Tableau de découverte d’emplois créatifs et de projets freelance publiés par des clients.
 
 **Site :** https://mane458957-maker.github.io/creative-hunter-ai/
 
-## Sources connectées
+## Sources et règles de recherche
 
-- **Emploi :** Emploi : Remotive, Arbeitnow Europe, Jobicy, Remote OK et Himalayas. Projets clients : Freelancer.com.
-- **Missions clients :** projets freelance publiés par des clients, dont le flux public Freelancer.com, avec recherche par compétences créatives. Les demandes de projets publiées par des clients sont présentées dans **Demandes clients** (sites web, vidéo, e-commerce et contenus).
-- **Mobilité :** emploi en présentiel uniquement en France ou aux Émirats arabes unis; emploi à distance et missions freelance ouverts à l’international.
-- Les flux sont actualisés quatre fois par jour. Les annonces qui exigent un niveau avancé dans une langue non indiquée sur le CV sont exclues du flux. Les mises à jour du tableau récupèrent Jobicy et conservent le dernier instantané des autres flux pour respecter leurs limites de requêtes.
-- Chaque annonce renvoie à sa source d’origine. Certaines annonces peuvent être en anglais, allemand ou néerlandais; le bouton **« Traduire l’annonce en français »** ouvre la traduction de la page source.
-- Aucune candidature, proposition, enchère ou aucun message n’est envoyé automatiquement.
+- **Emploi :** Remotive, Arbeitnow Europe, Jobicy, Remote OK et Himalayas.
+- **Demandes clients :** projets actifs publiés sur Freelancer.com, notamment en création de sites, e-commerce, montage vidéo, contenus et SEO. La page **Demandes clients** regroupe les projets correspondant au profil et renvoie à leur annonce originale.
+- **Mobilité :** emploi en présentiel uniquement en France ou aux Émirats arabes unis. Les emplois à distance et les projets freelance peuvent être internationaux.
+- Les annonces qui exigent un niveau avancé dans une langue non indiquée sur le CV sont filtrées lorsque l’annonce précise cette exigence.
+- Les sources publiques sont actualisées quatre fois par jour. Les mises à jour du tableau rafraîchissent Freelancer.com, Jobicy, Remote OK et Himalayas, tout en conservant les autres flux pour respecter leurs limites.
+- Chaque annonce conserve son lien d’origine. Les annonces en anglais, allemand ou néerlandais ont un lien **« Traduire l’annonce en français »**.
+- Aucune candidature, proposition, enchère ni aucun message n’est envoyé automatiquement. Pour postuler à un projet Freelancer.com, il faut utiliser son compte Freelancer.
 
-Consultez [le registre des sources](docs/DATA_SOURCES.md) pour les accès à obtenir. Indeed ne se connecte pas avec une adresse e-mail personnelle : ses API nécessitent un accès partenaire.
+Consultez [le registre des sources](docs/DATA_SOURCES.md) pour les accès requis. Une adresse e-mail personnelle ne suffit pas pour connecter Indeed; l’accès à son API est réservé aux partenaires autorisés.
 
 ## Publication et confidentialité
 
-GitHub Actions publie automatiquement le tableau sur GitHub Pages. Le profil candidat sert au filtrage pendant l’exécution et n’est pas copié sur le site publié. Le CV PDF et les coordonnées personnelles ne sont pas inclus.
+GitHub Actions publie automatiquement le tableau sur GitHub Pages. Le CV PDF et les coordonnées personnelles ne sont pas inclus dans le site. Le profil candidat sert au filtrage des annonces pendant la génération des données.
 
-Le dépôt est public afin d’héberger le site sur le forfait GitHub actuel. Le dépôt inclut un profil professionnel dérivé du CV (nom, ville, expérience, formation, compétences et langues), avec l’accord donné pour cette visibilité temporaire. Tout visiteur peut consulter le site et le dépôt publics.
+Le dépôt est public afin d’héberger le site sur le forfait GitHub actuel. Il contient un profil professionnel dérivé du CV (nom, ville, expérience, formation, compétences et langues), avec l’accord donné pour cette visibilité temporaire. Tout visiteur peut consulter le dépôt et le site.
 
-## Candidatures
+## Utilisation
 
-L’outil sert uniquement à repérer et examiner des annonces. La personne choisit et envoie chaque candidature.
+Le tableau sert à repérer et examiner des annonces. La personne choisit elle-même les projets et envoie chaque proposition ou candidature.
