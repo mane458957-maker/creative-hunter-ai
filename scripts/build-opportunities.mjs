@@ -32,7 +32,7 @@ function score(text) {
   const matched = uniqueSkills.filter((skill) => haystack.includes(skill));
   const titleMatches = profile.matching.employment.targetTitles.filter((title) => haystack.includes(title.toLowerCase())).length;
   const locationBoost = /remote|dubai|united arab emirates|france|europe|worldwide/.test(haystack) ? 5 : 0;
-  return Math.min(97, Math.max(35, 40 + matched.length * 10 + titleMatches * 12 + locationBoost));
+  return Math.min(97, Math.max(35, 55 + matched.length * 12 + titleMatches * 10 + locationBoost));
 }
 function normalize({ id, title, company, url, location, type, salary, description, date, source }) {
   if (!title || !url) return null;
@@ -86,7 +86,10 @@ const unique = [...new Map(listings.map((item) => [item.url, item])).values()];
 const relevant = unique.filter((item) => {
   const title = item.title.toLowerCase();
   const body = [item.title, item.type, item.summary, ...item.tags].join(" ").toLowerCase();
-  return targetTitles.some((term) => title.includes(term)) || uniqueSkills.some((skill) => body.includes(skill));
+  const roleInTitle = targetTitles.some((term) => title.includes(term));
+  const skillInTitle = uniqueSkills.some((skill) => title.includes(skill));
+  const relevantSkills = uniqueSkills.filter((skill) => body.includes(skill)).length;
+  return roleInTitle || skillInTitle || relevantSkills >= 2;
 });
 const capped = relevant.sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 300);
 await fs.mkdir("_site/data", { recursive: true });
