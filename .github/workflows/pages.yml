@@ -10,6 +10,7 @@ on:
       - ".github/workflows/pages.yml"
   schedule:
     - cron: "0 1,7,13,19 * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -33,7 +34,8 @@ jobs:
           cp index.html _site/index.html
       - name: Refresh public feeds
         env:
-          EXPANDED_ONLY: ${{ github.event_name != 'schedule' }}
+          EXPANDED_ONLY: ${{ github.event_name != 'schedule' || github.event.schedule == '*/15 * * * *' }}
+          FREELANCER_ONLY: ${{ github.event.schedule == '*/15 * * * *' }}
         run: node scripts/build-opportunities.mjs
       - uses: actions/upload-pages-artifact@v3
         with:
