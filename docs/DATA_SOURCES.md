@@ -21,7 +21,7 @@
 | Remotive / Arbeitnow / Jobicy / Remote OK / Himalayas | Connectées, limitées | Seules les annonces indiquant explicitement freelance ou travail par projet apparaissent dans cette vue. |
 | Upwork | Non connecté | Accès développeur officiel et identifiants requis. |
 | Malt / Contra | Non connectées | Vérifier la disponibilité d’un flux officiel ou d’une autorisation écrite. |
-| Freelancer.com | Connecté | API publique de projets actifs publiée par des clients; aucun compte requis pour la lecture. Seuls les projets dont le pays du client est vérifiable et différent de l’Inde sont conservés. Les projets avec budget connu sont convertis en EUR et ceux sous 400 € sont masqués. Les projets sans budget restent visibles après les projets chiffrés. Un compte Freelancer est requis pour envoyer une proposition. |
+| Freelancer.com | Connecté | API publique de projets actifs publiée par des clients; aucun compte requis pour la lecture. Seuls les projets dont le pays du client est vérifiable et différent de l’Inde sont conservés. Les projets avec budget connu sont convertis en EUR et ceux sous 200 € sont masqués. Les projets sans budget restent visibles après les projets chiffrés. Un compte Freelancer est requis pour envoyer une proposition. |
 
 Aucun scraping de pages protégées n’est activé; les offres freelance viennent de l’API publique Freelancer.com. Aucun identifiant de plateforme ni de candidat n’est configuré.
 
