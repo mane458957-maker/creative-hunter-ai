@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "privacy": {
+    "contactDetailsIncluded": false,
+    "cvFileIncluded": false,
+    "publicExposureAllowed": false
+  },
+  "candidate": {
+    "displayName": "Mohammed Goual",
+    "baseCity": "Dubai",
+    "country": "United Arab Emirates",
+    "professionalHeadline": "Digital Creator | Video Editor | Web Designer",
+    "summary": "Digital creator and entrepreneur experienced in building online businesses, designing and maintaining websites, producing visual assets, editing video, and managing social media. Additional background in SEO, e-commerce operations, customer support and team coordination."
+  },
+  "experience": [
+    {
+      "title": "Founder & Digital Creator",
+      "organization": "Goual Art",
+      "period": "2026-present",
+      "focus": ["creative brand development", "visual portfolio", "website", "social media"]
+    },
+    {
+      "title": "Founder & Digital Project Manager",
+      "organization": "The Art of Vision",
+      "period": "2020-2025",
+      "focus": ["WordPress", "Shopify", "Webflow", "visual design", "social media", "SEO"]
+    },
+    {
+      "title": "Founder & Training Centre Manager",
+      "organization": "MG Academy",
+      "period": "2022-2025",
+      "focus": ["training operations", "team recruitment", "company placements"]
+    },
+    {
+      "title": "Logistics Back Office Supervisor",
+      "organization": "Snapcar",
+      "period": "2015-2020",
+      "focus": ["operations", "planning", "customer support", "issue resolution"]
+    },
+    {
+      "title": "Earlier experience",
+      "organization": "Drive Prestige, Panasonic, L'Oréal Paris, Alliance Gestion G.I.E.",
+      "period": "2007-2015",
+      "focus": ["entrepreneurship", "sales administration", "customer service", "operations", "reporting"]
+    }
+  ],
+  "education": [
+    "European Degree in SME Management (DEESGEST), 2010-2011",
+    "BTS in SME Management and Administration, 2007-2009",
+    "Baccalaureate in Management (STT), 2005-2006"
+  ],
+  "skills": [
+    "video editing",
+    "web design",
+    "e-commerce",
+    "visual content",
+    "social media",
+    "SEO",
+    "digital project coordination",
+    "operations",
+    "customer support",
+    "WordPress",
+    "Shopify",
+    "Webflow",
+    "Adobe Premiere Pro",
+    "Adobe Photoshop",
+    "Microsoft Office",
+    "SAP",
+    "CIEL"
+  ],
+  "languages": [
+    { "name": "French", "level": "native" },
+    { "name": "Arabic (Algerian Darija)", "level": "spoken" },
+    { "name": "English", "level": "good working proficiency" },
+    { "name": "Spanish", "level": "comprehension" }
+  ],
+  "matching": {
+    "employment": {
+      "enabled": true,
+      "targetTitles": ["Video Editor", "Digital Content Creator", "Social Media Specialist", "Web Designer", "E-commerce Specialist", "Digital Project Coordinator"],
+      "contractTypes": ["full-time", "fixed-term", "contract"],
+      "locations": ["Dubai", "United Arab Emirates", "remote", "France", "Europe", "international"],
+      "prioritySkills": ["video editing", "web design", "Shopify", "Webflow", "visual content", "social media", "SEO"],
+      "workingLanguages": ["French", "English"]
+    },
+    "freelance": {
+      "enabled": true,
+      "targetServices": ["video editing", "short-form content", "social media content", "web design", "Shopify setup", "Webflow websites", "visual content", "SEO", "digital creative project coordination"],
+      "preferredWorkMode": ["remote", "Dubai-based"],
+      "prioritySkills": ["video editing", "advertising", "storytelling", "e-commerce", "Shopify", "Webflow", "social media", "visual content"]
+    }
+  },
+  "matchingNotes": [
+    "Target roles and locations are starter suggestions inferred from the CV, not confirmed preferences.",
+    "No salary minimum or availability schedule was stated in the CV; do not infer one.",
+    "Match scores are illustrative until live source data and a scoring model are connected."
+  ]
+}
