@@ -102,7 +102,7 @@ const sourceStatus = [];
 const listings = [];
 async function source(name, request, mapItems) {
   try {
-    const payload = await getJson(request);
+    const payload = Array.isArray(request) ? await Promise.all(request.map(getJson)) : await getJson(request);
     const items = mapItems(payload)
       .filter((item) => !hasUnsupportedLanguageRequirement([item.title, item.description].join(" ")))
       .map((item) => normalize({ ...item, source: name }))
@@ -173,8 +173,11 @@ const fetchHimalayas = () => source("Himalayas", "https://himalayas.app/jobs/api
     salary: job.minSalary && job.maxSalary ? `${job.currency || ""} ${job.minSalary}-${job.maxSalary} / ${job.salaryPeriod || "year"}`.trim() : "",
     description: job.excerpt || job.description, date: job.pubDate
   })));
-const fetchFreelancer = () => source("Freelancer.com", "https://www.freelancer.com/api/projects/0.1/projects/active/?limit=100&sort_field=time_updated&order=desc", (data) =>
-  (data.result?.projects || []).map((project) => ({
+const fetchFreelancer = () => source("Freelancer.com", [
+  "https://www.freelancer.com/api/projects/0.1/projects/active/?limit=100&sort_field=time_updated&order=desc",
+  "https://www.freelancer.com/api/projects/0.1/projects/active/?limit=100&sort_field=time_updated&order=desc&query=animation"
+], (payloads) =>
+  [...new Map(payloads.flatMap((data) => data.result?.projects || []).map((project) => [project.id, project])).values()].map((project) => ({
     id: project.id,
     title: project.title,
     company: "Client · Freelancer.com",
@@ -251,7 +254,7 @@ const relevant = unique.filter((item) => {
   const roleInTitle = targetTitles.some((term) => title.includes(term));
   const skillInTitle = uniqueSkills.some((skill) => title.includes(skill));
   const relevantSkills = uniqueSkills.filter((skill) => body.includes(skill)).length;
-  const creativeRole = /video|film|motion|content creator|content producer|social media|web design|shopify|webflow|e-?commerce|visual|creative|graphic|seo/.test(title);
+  const creativeRole = /video|film|motion|content creator|content producer|social media|web design|shopify|webflow|e-?commerce|visual|creative|graphic|seo|animat|cartoon|character/.test(title);
   if (item.kind === "job") return roleInTitle || skillInTitle || creativeRole || relevantSkills >= 2;
   return roleInTitle || skillInTitle || creativeRole || relevantSkills >= 1;
 });
