@@ -1,29 +1,25 @@
 # Creative Hunter AI
 
-A responsive opportunity dashboard for creative employment and freelance missions.
+Tableau de découverte d’offres d’emploi créatives et de missions freelance.
 
-**Live site:** https://mane458957-maker.github.io/creative-hunter-ai/
+**Site :** https://mane458957-maker.github.io/creative-hunter-ai/
 
-## Connected discovery
+## Sources connectées
 
-- **Employment engine:** Remotive remote jobs and Arbeitnow Europe listings.
-- **Freelance engine:** listings explicitly marked freelance, contractor or project-based by those feeds, kept in a separate view.
-- Feed snapshots refresh four times daily and after dashboard/profile changes. Matching uses a simple keyword score.
-- Each listing links to its original source.
-- Applications are always manual. The app never submits applications, proposals, bids or messages.
+- **Emploi :** Remotive, Arbeitnow Europe et Jobicy.
+- **Freelance :** annonces portant explicitement la mention freelance, contractant ou projet, affichées dans une vue distincte.
+- Les flux sont actualisés quatre fois par jour. Les mises à jour du tableau récupèrent Jobicy et conservent le dernier instantané des autres flux pour respecter leurs limites de requêtes.
+- Chaque annonce renvoie à sa source d’origine. Certaines annonces peuvent être en anglais, allemand ou néerlandais; le bouton **« Traduire l’annonce en français »** ouvre la traduction de la page source.
+- Aucune candidature, proposition, enchère ou aucun message n’est envoyé automatiquement.
 
-See [the source register](docs/DATA_SOURCES.md) for current access and limitations.
+Consultez [le registre des sources](docs/DATA_SOURCES.md) pour les accès à obtenir. Indeed ne se connecte pas avec une adresse e-mail personnelle : ses API nécessitent un accès partenaire.
 
-## Automatic publishing
+## Publication et confidentialité
 
-GitHub Actions fetches the public feeds, creates a static listing snapshot, and publishes it with the dashboard. The candidate profile is used in the Actions runner and is not copied into the published site.
+GitHub Actions publie automatiquement le tableau sur GitHub Pages. Le profil candidat sert au filtrage pendant l’exécution et n’est pas copié sur le site publié. Le CV PDF et les coordonnées personnelles ne sont pas inclus.
 
-## Candidate profile and visibility
+Le dépôt est public afin d’héberger le site sur le forfait GitHub actuel. Le dépôt inclut un profil professionnel dérivé du CV (nom, ville, expérience, formation, compétences et langues), avec l’accord donné pour cette visibilité temporaire. Tout visiteur peut consulter le site et le dépôt publics.
 
-The repository is public to enable GitHub Pages on this account. The CV PDF, phone number, email address and street address are excluded. The public repository includes a professional profile with the candidate's name, city, experience, education, skills and languages; temporary public visibility was approved.
+## Candidatures
 
-If the repository is made private again, GitHub Pages on the current plan will be unpublished. The public site is visible to anyone while deployed.
-
-## Safety
-
-This is opportunity discovery and review only. A person reviews and initiates every application action.
+L’outil sert uniquement à repérer et examiner des annonces. La personne choisit et envoie chaque candidature.
