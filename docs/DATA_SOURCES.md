@@ -1,6 +1,6 @@
 # Sources de données et état des connexions
 
-**Mise à jour : 3 novembre 2026.** Trois flux publics sont récupérés par GitHub Actions quatre fois par jour. Le profil candidat sert uniquement au filtrage dans le runner; il n’est pas copié dans le site publié.
+**Mise à jour : 3 novembre 2026.** Cinq flux publics sont récupérés par GitHub Actions quatre fois par jour. Le profil candidat sert uniquement au filtrage dans le runner; il n’est pas copié dans le site publié.
 
 ## Moteur emploi
 
@@ -9,6 +9,8 @@
 | Remotive | Connectée | Offres à distance; décalage de 24 h et maximum conseillé de quatre requêtes par jour. Attribution et lien d’origine conservés. |
 | Arbeitnow Europe | Connectée | Offres centrées sur l’Europe; lien vers Arbeitnow conservé. |
 | Jobicy | Connectée | Offres à distance récentes; aucun compte ni clé requis. Attribution et lien original Jobicy conservés. |
+| Remote OK | Connectée | Flux public JSON sans identifiants; attribution et lien vers l’annonce originale conservés. |
+| Himalayas | Connectée | API publique d’emplois à distance sans identifiants; attribution et lien de candidature original conservés. Le flux est mis à jour quotidiennement. |
 | Indeed | Non connecté | Les API publiques documentées concernent surtout les employeurs et partenaires. Une adresse e-mail ne donne pas accès à un flux de recherche; accès partenaire à demander. |
 | France Travail | Non connecté | Confirmer l’accès API et les conditions de réutilisation. |
 
@@ -16,7 +18,7 @@
 
 | Source | État | À faire |
 | --- | --- | --- |
-| Remotive / Arbeitnow / Jobicy | Connectées, limitées | Seules les annonces indiquant explicitement freelance ou travail par projet apparaissent dans cette vue. |
+| Remotive / Arbeitnow / Jobicy / Remote OK / Himalayas | Connectées, limitées | Seules les annonces indiquant explicitement freelance ou travail par projet apparaissent dans cette vue. |
 | Upwork | Non connecté | Accès développeur officiel et identifiants requis. |
 | Malt / Contra | Non connectées | Vérifier la disponibilité d’un flux officiel ou d’une autorisation écrite. |
 | Freelancer.com | Non connecté | Autorisation écrite à obtenir avant tout accès automatisé. |
