@@ -23,7 +23,7 @@
 | Malt / Contra | Non connectées | Vérifier la disponibilité d’un flux officiel ou d’une autorisation écrite. |
 | Freelancer.com | Connecté | API publique de projets actifs publiée par des clients; aucun compte requis pour la lecture. Aucun pays n’est exclu. Les projets avec budget connu sont convertis en EUR et ceux sous 200 € sont masqués. Les projets sans budget restent visibles après les projets chiffrés. Un compte Freelancer est requis pour envoyer une proposition. |
 
-Aucun scraping de pages protégées n’est activé; les offres freelance viennent de l’API publique Freelancer.com. Aucun identifiant de plateforme ni de candidat n’est configuré.
+Aucun scraping de pages protégées n’est activé; les offres freelance viennent de l’API publique Freelancer.com. La recherche freelance inclut une vue dédiée aux projets d’animation 2D/3D, dessins animés, séries, animation de personnages et publicités animées. Le portfolio et Instagram publics de GOUAL ART sont liés dans cette vue. Aucun identifiant de plateforme ni de candidat n’est configuré.
 
 
 ## Ressources à connecter, par facilité
