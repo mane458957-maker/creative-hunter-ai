@@ -1,6 +1,6 @@
 # Sources de données et état des connexions
 
-**Mise à jour : 3 novembre 2026.** Sept flux publics sont récupérés par GitHub Actions quatre fois par jour. Le profil candidat sert uniquement au filtrage dans le runner; il n’est pas copié dans le site publié.
+**Mise à jour : 3 novembre 2026.** Sept flux publics sont récupérés par GitHub Actions; les sources d’emploi sont rafraîchies quatre fois par jour et les projets Freelancer.com toutes les 15 minutes. Le profil candidat sert uniquement au filtrage dans le runner; il n’est pas copié dans le site publié.
 
 ## Moteur emploi
 
@@ -55,7 +55,7 @@ L’interface est en français. Les annonces peuvent rester dans leur langue d�
 
 ## Actualisation et confidentialité
 
-- Actualisation planifiée à 01 h, 07 h, 13 h et 19 h UTC; les changements pertinents du dépôt relancent également le flux.
+- Emploi : actualisation planifiée à 01 h, 07 h, 13 h et 19 h UTC. Projets Freelancer.com : actualisation planifiée toutes les 15 minutes. Les changements pertinents du dépôt relancent également le flux.
 - La correspondance est calculée dans GitHub Actions. Le profil candidat n’est ni publié sur Pages ni transmis aux sites d’offres.
 - L’instantané public contient les détails des annonces, leur source, leur URL et un score indicatif, sans coordonnées du candidat.
 - Les annonces enregistrées restent dans le navigateur; aucune base de données ni synchronisation de compte n’est configurée. Freelancer.com actualise les projets publiés par des clients et conserve le lien vers chaque demande d’origine.
