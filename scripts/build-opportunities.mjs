@@ -20,7 +20,7 @@ function plainText(value = "") {
   return String(value)
     .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ")
     .replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&")
-    .replace(/<[^>]*>/g, " ").replace(/\\s+/g, " ").trim();
+    .replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 }
 function classify(text, explicitType = "") {
   const type = explicitType.toLowerCase();
@@ -35,7 +35,8 @@ function score(text) {
   return Math.min(97, Math.max(35, 40 + matched.length * 10 + titleMatches * 12 + locationBoost));
 }
 function normalize({ id, title, company, url, location, type, salary, description, date, source }) {
-  if (!title || !url) return null;\n  try { if (new URL(url).protocol !== "https:") return null; } catch { return null; }
+  if (!title || !url) return null;
+  try { if (new URL(url).protocol !== "https:") return null; } catch { return null; }
   const summary = plainText(description).slice(0, 260);
   const text = [title, company, location, type, summary].join(" ");
   return {
