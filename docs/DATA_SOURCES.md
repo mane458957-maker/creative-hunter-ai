@@ -1,18 +1,21 @@
 # Sources de données et état des connexions
 
-**Mise à jour : 3 novembre 2026.** Sept flux publics sont récupérés par GitHub Actions; les sources d’emploi sont rafraîchies quatre fois par jour et les projets Freelancer.com toutes les 15 minutes. Le profil candidat sert uniquement au filtrage dans le runner; il n’est pas copié dans le site publié.
+**Mise à jour : 4 novembre 2026.** Neuf flux publics ou conditionnels sont récupérés par GitHub Actions; les sources d’emploi sont rafraîchies quatre fois par jour et les projets Freelancer.com toutes les 15 minutes. Le profil candidat sert uniquement au filtrage dans le runner; il n’est pas copié dans le site publié.
 
 ## Moteur emploi
 
 | Source | État | Couverture et règles |
 | --- | --- | --- |
 | Remotive | Connectée | Offres à distance; décalage de 24 h et maximum conseillé de quatre requêtes par jour. Attribution et lien d’origine conservés. |
+| Active Vacancies | Connectée | Index d’offres provenant directement des pages carrières d’employeurs; API publique sans clé. Recherche ciblée France, Émirats et remote. Attribution, page source et lien de candidature employeur conservés. Nettoyage selon les offres signalées actives par la source. |
+| 101 Careers | Connectée | API publique d’offres remote sans clé. Seules les lignes portant l’attribution « 101 Careers » sont affichées; les annonces appartenant aux sources partenaires sont exclues. |
 | Arbeitnow Europe | Connectée | Offres centrées sur l’Europe; lien vers Arbeitnow conservé. |
 | Jobicy | Connectée | Offres à distance récentes; aucun compte ni clé requis. Attribution et lien original Jobicy conservés. |
 | Remote OK | Connectée | Flux public JSON sans identifiants; attribution et lien vers l’annonce originale conservés. |
 | Himalayas | Connectée | API publique d’emplois à distance sans identifiants; attribution et lien de candidature original conservés. Le flux est mis à jour quotidiennement. |
 | Indeed | Non connecté | Les API publiques documentées concernent surtout les employeurs et partenaires. Une adresse e-mail ne donne pas accès à un flux de recherche; accès partenaire à demander. |
-| France Travail | Non connecté | Confirmer l’accès API et les conditions de réutilisation. |
+| Adzuna France | En attente des clés privées | API officielle intégrée pour les recherches créatives en France. Créer gratuitement un compte développeur, puis ajouter `ADZUNA_APP_ID` et `ADZUNA_APP_KEY` dans Settings → Secrets and variables → Actions du dépôt GitHub. Ne jamais les publier ni les envoyer dans le chat. |
+| France Travail | Indisponible | La fiche publique France Travail indique que l’API Offres d’emploi n’est actuellement plus exposée pendant l’analyse de ses modalités de distribution et de réutilisation. À reconsidérer lorsqu’elle sera réouverte. |
 
 ## Moteur freelance
 
@@ -31,12 +34,15 @@ Aucun scraping de pages protégées n’est activé; les offres freelance vienne
 ### 1. Faciles ou déjà accessibles
 
 - **We Work Remotely** : connecté via son flux RSS public, avec attribution et liens d’origine conservés.
+- **Active Vacancies** : API publique sans compte; utilisation explicitement annoncée pour les applications, recherches et tableaux de bord, avec lien source et lien de candidature employeur conservés.
+- **101 Careers** : API publique sans clé; les annonces issues de sites partenaires ne sont pas rediffusées, seules celles attribuées à 101 Careers sont utilisées.
 - **Remote First Jobs** : API publique sans clé, mais ses conditions interdisent la republication des offres sur des sites tiers. Le tableau GitHub Pages étant public, la source n’est pas intégrée sans autorisation écrite.
 - **Trabajos Online** : API de recherche publique repérée, mais les conditions de contact et de paiement imposent de garder les échanges sur leur plateforme. À examiner avant de l’afficher dans un tableau public.
 
 ### 2. API ou manipulation à préparer
 
-- **France Travail** : l’API de recherche d’offres est actuellement retirée du portail pendant la révision de ses conditions de diffusion. Elle n’est donc pas connectée. Il faudra reprendre ce point quand l’API sera disponible; aucun compte ni identifiant n’est à créer maintenant.
+- **Adzuna France** : les recherches créatives sont intégrées au moteur; créer un compte développeur gratuit et ajouter `ADZUNA_APP_ID` et `ADZUNA_APP_KEY` comme secrets privés dans GitHub pour activer les requêtes. La documentation officielle prévoit l’accès par ces deux identifiants et autorise la recherche personnelle d’emploi.
+- **France Travail** : l’API de recherche d’offres n’est actuellement plus exposée pendant la révision des modalités de diffusion et de réutilisation. Aucun compte ni identifiant n’est à créer maintenant; reprendre quand l’API sera réouverte.
 - **Upwork** : API développeur et accès accordé par Upwork. Il faudra créer un compte développeur et demander les identifiants; les offres resteront consultées et proposées manuellement.
 - **Taux de change Frankfurter** : connecté sans clé pour convertir les budgets affichés en euros. Les taux sont quotidiens; l’équivalent affiché reste une estimation.
 
