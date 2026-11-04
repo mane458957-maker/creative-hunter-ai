@@ -260,7 +260,7 @@ if (freelancerOnly) {
 } else if (expandedOnly || jobicyOnly) {
   const previous = await getJson("https://mane458957-maker.github.io/creative-hunter-ai/data/opportunities.json").catch(() => null);
   const refreshedSources = expandedOnly ? ["Jobicy", "Remote OK", "Himalayas", "Freelancer.com", "We Work Remotely", "Active Vacancies", "101 Careers", "Adzuna France"] : ["Jobicy"];
-  await Promise.all([fetchJobicy(), ...(expandedOnly ? [fetchRemoteOk(), fetchHimalayas(), fetchFreelancer(), fetchWeWorkRemotely()] : [])]);
+  await Promise.all([fetchJobicy(), ...(expandedOnly ? [fetchRemoteOk(), fetchHimalayas(), fetchFreelancer(), fetchWeWorkRemotely(), fetchActiveVacancies(), fetch101Careers(), fetchAdzunaFrance()] : [])]);
   if (previous) {
     listings.push(...(previous.opportunities || []).filter((item) => !refreshedSources.includes(item.source)));
     sourceStatus.push(...(previous.sources || []).filter((item) => !refreshedSources.includes(item.name)));
