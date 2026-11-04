@@ -36,6 +36,8 @@ jobs:
         env:
           EXPANDED_ONLY: ${{ github.event_name != 'schedule' || github.event.schedule == '*/15 * * * *' }}
           FREELANCER_ONLY: ${{ github.event.schedule == '*/15 * * * *' }}
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
         run: node scripts/build-opportunities.mjs
       - uses: actions/upload-pages-artifact@v3
         with:
