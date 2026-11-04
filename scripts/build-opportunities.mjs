@@ -220,7 +220,7 @@ async function fetch101Careers() {
       location: job.location || job.country || "Remote",
       type: "Remote employment · " + (job.employmentType || "Remote"),
       salary: job.salary || "", description: job.description || job.excerpt || "",
-      date: job.publishedAt || job.pubDate || job.date, kind: "job"
+      date: job.posted_at || job.postedAt || job.publishedAt || job.pubDate || job.date, kind: "job"
     })));
 }
 async function fetchAdzunaFrance() {
