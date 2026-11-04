@@ -303,6 +303,8 @@ if (freelancerOnly) {
     fetchWeWorkRemotely()
   ]);
 };
+const curated = JSON.parse(await fs.readFile("config/curated-opportunities.json", "utf8"));
+listings.push(...(curated.opportunities || []));
 const unique = [...new Map(listings.map((item) => [item.applicationUrl || item.url, item])).values()].filter(isRecentListing);
 let eurRates = { EUR: 1 };
 try {
