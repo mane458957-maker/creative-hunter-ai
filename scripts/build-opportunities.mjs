@@ -56,10 +56,10 @@ function employmentLocationAllowed(item) {
   if (item.kind !== "job") return true;
   const place = normalizeText(item.location || "");
   const workMode = normalizeText(item.type || "");
-  if (/france|french|dubai|abu dhabi|sharjah|ajman|ras al khaimah|united arab emirates|\\buae\\b|emirates/.test(place)) return true;
-  if (/anywhere in the world|worldwide|remote international|global remote/.test(place)) return true;
+  if (/france|french|dubai|abu dhabi|sharjah|ajman|ras al khaimah|united arab emirates|uae|emirates/.test(place)) return true;
+  if (/anywhere|worldwide|remote international|global remote/.test(place)) return true;
   if (!/remote|work from home|telecommut/.test(place + " " + workMode)) return false;
-  if (/\\b(?:united states|u\\.?s\\.?a?\\.?|canada)\\b/.test(place) && !/anywhere in the world|worldwide|remote international/.test(place)) return false;
+  if (/united states|remote[ -]?(?:us|usa)|us only|canada|united kingdom|remote[ -]?uk|uk only|germany|japan|singapore|portugal|san francisco|new york|austin|berlin|tokyo/.test(place)) return false;
   return true;
 }
 function classify(text, explicitType = "") {
