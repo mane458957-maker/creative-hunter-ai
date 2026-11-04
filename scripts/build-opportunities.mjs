@@ -68,14 +68,15 @@ function classify(text, explicitType = "") {
   return "job";
 }
 function isRecentListing(item) {
-  if (!item.date) return true;
+  if (!item.date) return false;
   const raw = String(item.date).trim();
   const numeric = Number(raw);
   const timestamp = Number.isFinite(numeric) && numeric > 0
     ? (numeric > 1e12 ? numeric : numeric > 1e9 ? numeric * 1000 : NaN)
     : Date.parse(raw);
-  if (!Number.isFinite(timestamp)) return true;
-  return Date.now() - timestamp <= 30 * 24 * 60 * 60 * 1000;
+  if (!Number.isFinite(timestamp)) return false;
+  const age = Date.now() - timestamp;
+  return age >= 0 && age <= 30 * 24 * 60 * 60 * 1000;
 }
 function score(text) {
   const haystack = text.toLowerCase();
