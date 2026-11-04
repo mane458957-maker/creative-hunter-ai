@@ -54,10 +54,13 @@ function hasUnsupportedLanguageRequirement(value = "") {
 }
 function employmentLocationAllowed(item) {
   if (item.kind !== "job") return true;
-  const place = normalizeText([item.location, item.type, item.summary].join(" "));
-  if (!place || /not specified|non precise|unspecified/.test(place)) return true;
-  if (/remote|work from home|worldwide|anywhere|distributed|telecommut/.test(place)) return true;
-  return /france|french|dubai|abu dhabi|sharjah|ajman|ras al khaimah|united arab emirates|\buae\b|emirates/.test(place);
+  const place = normalizeText(item.location || "");
+  const workMode = normalizeText(item.type || "");
+  if (/france|french|dubai|abu dhabi|sharjah|ajman|ras al khaimah|united arab emirates|\\buae\\b|emirates/.test(place)) return true;
+  if (/anywhere in the world|worldwide|remote international|global remote/.test(place)) return true;
+  if (!/remote|work from home|telecommut/.test(place + " " + workMode)) return false;
+  if (/\\b(?:united states|u\\.?s\\.?a?\\.?|canada)\\b/.test(place) && !/anywhere in the world|worldwide|remote international/.test(place)) return false;
+  return true;
 }
 function classify(text, explicitType = "") {
   const type = explicitType.toLowerCase();
@@ -313,7 +316,8 @@ const relevant = unique.filter((item) => {
   const skillInTitle = uniqueSkills.some((skill) => title.includes(skill));
   const relevantSkills = uniqueSkills.filter((skill) => body.includes(skill)).length;
   const creativeRole = /video|film|motion|content creator|content producer|social media|web design|shopify|webflow|e-?commerce|visual|creative|graphic|seo|animat|cartoon|character/.test(title);
-  if (item.kind === "job") return roleInTitle || skillInTitle || creativeRole || relevantSkills >= 2;
+  const clearlyUnrelatedRole = /software engineer|machine learning|\\bdeveloper\\b|\\bprogrammer\\b|product manager|audiovisual operations|\\bdata scientist\\b|\\bml manager\\b/.test(title);
+  if (item.kind === "job") return !clearlyUnrelatedRole && (roleInTitle || skillInTitle || creativeRole || relevantSkills >= 2);
   return roleInTitle || skillInTitle || creativeRole || relevantSkills >= 1;
 });
 const capped = relevant.sort((a, b) => {
