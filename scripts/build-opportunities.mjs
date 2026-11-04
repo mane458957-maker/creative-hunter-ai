@@ -67,6 +67,16 @@ function classify(text, explicitType = "") {
   if (type.includes("freelance") || type.includes("contractor") || type.includes("project-based")) return "freelance";
   return "job";
 }
+function isRecentListing(item) {
+  if (!item.date) return true;
+  const raw = String(item.date).trim();
+  const numeric = Number(raw);
+  const timestamp = Number.isFinite(numeric) && numeric > 0
+    ? (numeric > 1e12 ? numeric : numeric > 1e9 ? numeric * 1000 : NaN)
+    : Date.parse(raw);
+  if (!Number.isFinite(timestamp)) return true;
+  return Date.now() - timestamp <= 30 * 24 * 60 * 60 * 1000;
+}
 function score(text) {
   const haystack = text.toLowerCase();
   const matched = uniqueSkills.filter((skill) => haystack.includes(skill));
@@ -292,7 +302,7 @@ if (freelancerOnly) {
     fetchWeWorkRemotely()
   ]);
 };
-const unique = [...new Map(listings.map((item) => [item.applicationUrl || item.url, item])).values()];
+const unique = [...new Map(listings.map((item) => [item.applicationUrl || item.url, item])).values()].filter(isRecentListing);
 let eurRates = { EUR: 1 };
 try {
   const rates = await getJson("https://api.frankfurter.dev/v2/rates?base=EUR");
