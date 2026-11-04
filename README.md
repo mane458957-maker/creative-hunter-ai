@@ -6,7 +6,7 @@ Tableau de découverte d’emplois créatifs et de projets freelance publiés pa
 
 ## Sources et règles de recherche
 
-- **Emploi :** Remotive, Arbeitnow Europe, Jobicy, Remote OK, Himalayas et le flux RSS public We Work Remotely.
+- **Emploi :** Remotive, Arbeitnow Europe, Jobicy, Remote OK, Himalayas, We Work Remotely, Active Vacancies et 101 Careers. Adzuna France est intégrée et s’activera après ajout de ses identifiants API comme secrets privés GitHub. France Travail reste indisponible tant que son API d’offres n’est pas réexposée.
 - **Demandes clients :** projets actifs publiés sur Freelancer.com, notamment en création de sites, e-commerce, montage vidéo, contenus, SEO, animation 2D/3D, dessins animés, personnages et séries animées. Une rubrique Animation dédiée met ces projets en avant avec liens vers le portfolio GOUAL ART et Instagram @goual_art. Les clients peuvent être situés dans n’importe quel pays, y compris en Inde. Les budgets sont convertis en euros; les projets chiffrés sous 200 € sont masqués. Les demandes sans budget affiché restent visibles après les projets chiffrés.
 - **Mobilité :** emploi en présentiel uniquement en France ou aux Émirats arabes unis. Les emplois à distance et les projets freelance peuvent être internationaux.
 - Les annonces qui exigent un niveau avancé dans une langue non indiquée sur le CV sont filtrées lorsque l’annonce précise cette exigence.
