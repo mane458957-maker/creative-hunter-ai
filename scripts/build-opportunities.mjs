@@ -71,14 +71,16 @@ function score(text) {
   const locationBoost = /remote|dubai|united arab emirates|france|europe|worldwide/.test(haystack) ? 5 : 0;
   return Math.min(97, Math.max(35, 55 + matched.length * 12 + titleMatches * 10 + locationBoost));
 }
-function normalize({ id, title, company, url, location, type, salary, description, date, source, budgetMinimum, budgetMaximum, budgetCurrency, clientCountry, bidCount }) {
+function normalize({ id, title, company, url, applicationUrl, location, type, salary, description, date, source, budgetMinimum, budgetMaximum, budgetCurrency, clientCountry, bidCount, kind }) {
   if (!title || !url) return null;
   try { if (new URL(url).protocol !== "https:") return null; } catch { return null; }
+  let safeApplicationUrl = "";
+  try { if (new URL(applicationUrl).protocol === "https:") safeApplicationUrl = applicationUrl; } catch {}
   const summary = plainText(description).slice(0, 260);
   const text = [title, company, location, type, summary].join(" ");
   return {
     id: source.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + String(id || url).replace(/[^a-z0-9]+/gi, "-"),
-    kind: classify(text, type),
+    kind: kind || classify(text, type),
     company: company || source,
     initial: (company || source).trim().slice(0, 1).toUpperCase(),
     title,
@@ -94,6 +96,7 @@ function normalize({ id, title, company, url, location, type, salary, descriptio
     tags: uniqueSkills.filter((skill) => text.toLowerCase().includes(skill)).slice(0, 4),
     summary,
     url,
+    applicationUrl: safeApplicationUrl,
     source,
     date: date ? String(date) : ""
   };
@@ -173,6 +176,58 @@ const fetchHimalayas = () => source("Himalayas", "https://himalayas.app/jobs/api
     salary: job.minSalary && job.maxSalary ? `${job.currency || ""} ${job.minSalary}-${job.maxSalary} / ${job.salaryPeriod || "year"}`.trim() : "",
     description: job.excerpt || job.description, date: job.pubDate
   })));
+const fetchActiveVacancies = () => {
+  const searches = [
+    { q: "designer", location: "France" }, { q: "video", location: "France" }, { q: "animation", location: "France" },
+    { q: "designer", location: "United Arab Emirates" }, { q: "video", location: "United Arab Emirates" }, { q: "animation", location: "United Arab Emirates" },
+    { q: "designer", remote: "remote" }, { q: "video", remote: "remote" },
+    { q: "content creator", remote: "remote" }, { q: "social media", remote: "remote" }
+  ].map((params) => "https://activevacancies.com/api/v1/jobs?" + new URLSearchParams({ ...params, limit: "50", sort: "recent" }));
+  return source("Active Vacancies", searches, (payloads) => payloads.flatMap((data) => data.data || []).map((job) => ({
+    id: job.id || job.slug, title: job.title, company: job.company?.name || "Employer",
+    url: job.url, applicationUrl: job.applyUrl,
+    location: job.location || "Not specified",
+    type: "Employment · " + [job.employmentType, job.remoteStatus].filter(Boolean).join(" · "),
+    salary: job.salary ? [job.salary.min, job.salary.max].filter((value) => value != null).join("–") + " " + (job.salary.currency || "") + " / " + (job.salary.interval || "").replace("yearly", "year").replace("monthly", "month") : "",
+    description: job.description || job.department || job.team || "", date: job.postedAt,
+    kind: "job"
+  })));
+};
+async function fetch101Careers() {
+  const endpoints = ["design", "marketing", "animation"].map((tag) => "https://101.careers/api/v1/jobs?" + new URLSearchParams({ tag, per_page: "100", page: "1" }));
+  await source("101 Careers", endpoints, (payloads) => payloads.flatMap((data) => data.jobs || data.data || [])
+    .filter((job) => {
+      const origin = typeof job.source === "string" ? job.source : job.source?.name;
+      return normalizeText(origin || "") === "101 careers";
+    })
+    .map((job) => ({
+      id: job.id || job.guid || job.slug, title: job.title, company: job.company || job.companyName || "Employer",
+      url: job.url || job.link, applicationUrl: job.applicationLink || job.applyUrl,
+      location: job.location || job.country || "Remote",
+      type: "Remote employment · " + (job.employmentType || "Remote"),
+      salary: job.salary || "", description: job.description || job.excerpt || "",
+      date: job.publishedAt || job.pubDate || job.date, kind: "job"
+    })));
+}
+async function fetchAdzunaFrance() {
+  const appId = process.env.ADZUNA_APP_ID;
+  const appKey = process.env.ADZUNA_APP_KEY;
+  if (!appId || !appKey) {
+    sourceStatus.push({ name: "Adzuna France", status: "credentials_required", count: 0, detail: "Add ADZUNA_APP_ID and ADZUNA_APP_KEY as private GitHub Actions secrets." });
+    return;
+  }
+  const searches = ["designer", "video editor", "animation", "content creator", "social media", "web designer"].map((what) => {
+    const params = new URLSearchParams({ app_id: appId, app_key: appKey, what, results_per_page: "50", "content-type": "application/json" });
+    return "https://api.adzuna.com/v1/api/jobs/fr/search/1?" + params;
+  });
+  await source("Adzuna France", searches, (payloads) => payloads.flatMap((data) => data.results || []).map((job) => ({
+    id: job.id, title: job.title, company: job.company?.display_name || "Employer", url: job.redirect_url,
+    location: job.location?.display_name || "France",
+    type: "Employment · " + [job.contract_time, job.contract_type].filter(Boolean).join(" · "),
+    salary: job.salary_min != null && job.salary_max != null ? Math.round(job.salary_min) + "–" + Math.round(job.salary_max) + " EUR" + (job.salary_type ? " / " + job.salary_type : "") : "",
+    description: job.description, date: job.created, kind: "job"
+  })));
+}
 const fetchFreelancer = () => source("Freelancer.com", [
   "https://www.freelancer.com/api/projects/0.1/projects/active/?limit=100&sort_field=time_updated&order=desc",
   "https://www.freelancer.com/api/projects/0.1/projects/active/?limit=100&sort_field=time_updated&order=desc&query=animation"
@@ -204,7 +259,7 @@ if (freelancerOnly) {
   }
 } else if (expandedOnly || jobicyOnly) {
   const previous = await getJson("https://mane458957-maker.github.io/creative-hunter-ai/data/opportunities.json").catch(() => null);
-  const refreshedSources = expandedOnly ? ["Jobicy", "Remote OK", "Himalayas", "Freelancer.com", "We Work Remotely"] : ["Jobicy"];
+  const refreshedSources = expandedOnly ? ["Jobicy", "Remote OK", "Himalayas", "Freelancer.com", "We Work Remotely", "Active Vacancies", "101 Careers", "Adzuna France"] : ["Jobicy"];
   await Promise.all([fetchJobicy(), ...(expandedOnly ? [fetchRemoteOk(), fetchHimalayas(), fetchFreelancer(), fetchWeWorkRemotely()] : [])]);
   if (previous) {
     listings.push(...(previous.opportunities || []).filter((item) => !refreshedSources.includes(item.source)));
@@ -225,13 +280,16 @@ if (freelancerOnly) {
         description: job.description, date: job.created_at
       }))),
     fetchJobicy(),
+    fetchActiveVacancies(),
+    fetch101Careers(),
+    fetchAdzunaFrance(),
     fetchRemoteOk(),
     fetchHimalayas(),
     fetchFreelancer(),
     fetchWeWorkRemotely()
   ]);
 };
-const unique = [...new Map(listings.map((item) => [item.url, item])).values()];
+const unique = [...new Map(listings.map((item) => [item.applicationUrl || item.url, item])).values()];
 let eurRates = { EUR: 1 };
 try {
   const rates = await getJson("https://api.frankfurter.dev/v2/rates?base=EUR");
